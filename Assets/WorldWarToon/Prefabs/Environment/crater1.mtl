@@ -1,0 +1,12 @@
+newmtl GROUND-BEACH
+Kd 0.6911764 0.6292089 0.5183823
+d 1
+
+newmtl BROWN-DARK
+Kd 0.3019608 0.2549019 0.2078431
+d 1
+
+newmtl Default_Prototype
+Kd 1 1 1
+d 1
+
