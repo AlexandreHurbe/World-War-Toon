@@ -12,15 +12,15 @@ public class PlayerCamera : MonoBehaviour {
     public float smoothing = 5f;
     public float rotationSmoothing;
 
-    private Vector3 offset;
+    private Vector3 offset = new Vector3(0, 18, -6);
     private float cameraDistance;
     private float cameraDistanceMin = 5f;
     private float cameraDistanceMax = 18f;
     Vector3 rotationMask = new Vector3(0, 1, 0);
 
     private void Start() {
-        offset = new Vector3(target.transform.position.x, target.transform.position.y + 18, target.transform.position.z - 6);
-        this.transform.position = offset;
+        //offset = new Vector3(target.transform.position.x, target.transform.position.y + 18, target.transform.position.z - 6);
+        this.transform.position = target.transform.position + offset;
         cameraDistance = this.transform.position.y;
     }
 
@@ -52,18 +52,17 @@ public class PlayerCamera : MonoBehaviour {
         }
     }
 
-    /*
+    
     private void LateUpdate() {
-        float currentAngle = transform.eulerAngles.y;
-        float desiredAngle = target.transform.eulerAngles.y;
-        float angle = Mathf.LerpAngle(currentAngle, desiredAngle, Time.deltaTime * rotationSmoothing);
+        //float currentAngle = transform.eulerAngles.y;
+        //float desiredAngle = target.transform.eulerAngles.y;
+        //float angle = Mathf.LerpAngle(currentAngle, desiredAngle, Time.deltaTime * rotationSmoothing);
 
-        Quaternion rotation = Quaternion.Euler(0, angle, 0);
-        transform.position = target.transform.position - (rotation * offset);
-
-        transform.LookAt(target.transform);
-
-    }*/
+        //Quaternion rotation = Quaternion.Euler(0, angle, 0);
+        //transform.position = target.transform.position - (rotation * offset);
+        
+        
+    }
 
     
 }

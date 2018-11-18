@@ -154,6 +154,7 @@ public class PlayerSoldierMovement : MonoBehaviour {
             //Current movement system self space
             movement = ((this.transform.right.normalized * h) + (this.transform.forward.normalized * v)) * speed * Time.deltaTime;
         }
+        movement.Set(0, this.transform.position.y, 0);
         playerRigidBody.MovePosition(transform.position + movement);
 
 
