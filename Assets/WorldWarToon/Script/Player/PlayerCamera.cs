@@ -30,9 +30,11 @@ public class PlayerCamera : MonoBehaviour {
 
     
     private void Update() {
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
         /* This is for user zooming in and out using scroll wheel, the logic is wrong and needs to be worked on*/
-        if (Input.GetAxis("Mouse ScrollWheel") != 0) {
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && mouseX == 0) {
             cameraDistance.y -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
             cameraDistance.x = ((cameraDistance.y / 3) * (-1* Mathf.Sin(this.transform.rotation.y))) - ((Input.GetAxis("Mouse ScrollWheel") * scrollSpeed) / 3);
             Debug.Log("Camera distance x: " + cameraDistance.x);
@@ -46,20 +48,20 @@ public class PlayerCamera : MonoBehaviour {
             //return;
         }
 
-        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(cameraDistance.x, cameraDistance.y, cameraDistance.z), 5f * Time.deltaTime);
+        //this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(cameraDistance.x, cameraDistance.y, cameraDistance.z), 5f * Time.deltaTime);
+        this.transform.position = cameraDistance;
 
 
 
-        //float mouseX = Input.GetAxis("Mouse X");
-        //float mouseY = Input.GetAxis("Mouse Y");
+
 
         ///* This is the rotation around the player */
-        //if (Input.GetMouseButton(2) && mouseX != 0) {
-        //    continueZoom = false;
-        //    transform.RotateAround(target.transform.position, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
-        //    offset = this.transform.position - target.transform.position;
-        //    return;
-        //}
+        if (Input.GetMouseButton(2) && mouseX != 0) {
+            continueZoom = false;
+            transform.RotateAround(target.transform.position, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
+            offset = this.transform.position - target.transform.position;
+            return;
+        }
 
         ///*This allows users to extend their view also needs to be worked on*/
         //else if (mouseX != 0 || mouseY != 0) {
@@ -74,8 +76,8 @@ public class PlayerCamera : MonoBehaviour {
         //    //transform.position = pos;
         //}
 
-        
-        
+
+
 
     }
 
