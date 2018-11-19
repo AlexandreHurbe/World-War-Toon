@@ -30,26 +30,32 @@ public class PlayerCamera : MonoBehaviour {
 
     
     private void Update() {
+
+
+        
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
         /* This is for user zooming in and out using scroll wheel, the logic is wrong and needs to be worked on*/
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && mouseX == 0) {
+            cameraDistance = this.transform.position;
+            Debug.Log("CameraDistance before: " + cameraDistance);
             cameraDistance.y -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
-            cameraDistance.x = ((cameraDistance.y / 3) * (-1* Mathf.Sin(this.transform.rotation.y))) - ((Input.GetAxis("Mouse ScrollWheel") * scrollSpeed) / 3);
-            Debug.Log("Camera distance x: " + cameraDistance.x);
-            cameraDistance.z = ((cameraDistance.y / 3) * (-1 * Mathf.Cos(this.transform.rotation.y))) + ((Input.GetAxis("Mouse ScrollWheel") * scrollSpeed) / 3);
-            Debug.Log("Camera distance z: " + cameraDistance.z);
             cameraDistance.y = Mathf.Clamp(cameraDistance.y, cameraDistanceMin, cameraDistanceMax);
-            cameraDistance.z = Mathf.Clamp(cameraDistance.z, -cameraDistanceMax / 3, -cameraDistanceMin / 3);
-            cameraDistance.x = Mathf.Clamp(cameraDistance.x, -cameraDistanceMax / 3, -cameraDistanceMin / 3);
-            //Debug.Log(cameraDistance.y);
-            continueZoom = true;
-            //return;
+            
+            
+            cameraDistance.x = ((cameraDistance.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad*(this.transform.rotation.y))));
+            Debug.Log(-Mathf.Sin(Mathf.Deg2Rad * (this.transform.rotation.y)));
+            cameraDistance.z = (((cameraDistance.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (this.transform.rotation.y)))));
+            
+
+            Debug.Log("CameraDistance after: " + cameraDistance);
+            offset = cameraDistance;
+            //Debug.Log(offset);
         }
 
         //this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(cameraDistance.x, cameraDistance.y, cameraDistance.z), 5f * Time.deltaTime);
-        this.transform.position = cameraDistance;
+        //this.transform.position = cameraDistance;
 
 
 
@@ -60,7 +66,6 @@ public class PlayerCamera : MonoBehaviour {
             continueZoom = false;
             transform.RotateAround(target.transform.position, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
             offset = this.transform.position - target.transform.position;
-            return;
         }
 
         ///*This allows users to extend their view also needs to be worked on*/
@@ -91,18 +96,16 @@ public class PlayerCamera : MonoBehaviour {
         //transform.position = target.transform.position - (rotation * offset);
         //this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
 
-        this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
+        //this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
+        
+        this.transform.position = target.transform.position + offset;
+        
+
         /*if (needsCenter) {
             this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 0.5f * Time.deltaTime);
         }*/
 
     }
-
-    IEnumerator resetCamera() {
-        yield return new WaitForSeconds(3f);
-        //transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 0.5f*Time.deltaTime);
-        yield return new WaitForSeconds(1f);
-        //isCentered = true;
-    }
+    
 
 }
