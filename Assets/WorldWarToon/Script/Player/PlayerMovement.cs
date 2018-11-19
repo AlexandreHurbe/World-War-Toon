@@ -51,7 +51,6 @@ public class PlayerMovement : MonoBehaviour {
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y - 90, transform.localEulerAngles.z);
         }
 
-        //movement.Set(h, 0, v);
         Vector3 camForward = Camera.main.transform.forward;
         Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
