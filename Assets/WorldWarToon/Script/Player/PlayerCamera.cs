@@ -17,11 +17,13 @@ public class PlayerCamera : MonoBehaviour {
     private float cameraDistanceMin = 5f;
     private float cameraDistanceMax = 18f;
     Vector3 rotationMask = new Vector3(0, 1, 0);
+    private bool isRotating;
 
     private void Start() {
         //offset = new Vector3(target.transform.position.x, target.transform.position.y + 18, target.transform.position.z - 6);
         this.transform.position = target.transform.position + offset;
         cameraDistance = this.transform.position.y;
+        isRotating = false;
     }
 
     
@@ -33,14 +35,15 @@ public class PlayerCamera : MonoBehaviour {
         Vector3 pos = transform.position;
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
-
+        Debug.Log(isRotating);
         if (Input.GetMouseButton(2) && mouseX != 0) {
+            isRotating = true;
             transform.RotateAround(target.transform.position, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
+            offset = this.transform.position - target.transform.position;
             return;
         }
-
-        pos.z += mouseY * Time.deltaTime;
-        pos.x += mouseX * Time.deltaTime;
+        //pos.z += mouseY * Time.deltaTime;
+        //pos.x += mouseX * Time.deltaTime;
 
         //pos.x = Mathf.Clamp(pos.x, -panLimit.x, panLimit.x);
         //pos.z = Mathf.Clamp(pos.z, -panLimit.y, panLimit.y);
@@ -48,7 +51,7 @@ public class PlayerCamera : MonoBehaviour {
         transform.position = pos;
         
         if (Input.GetKeyDown(KeyCode.F)) {
-            this.transform.position = offset;
+            this.transform.position = target.transform.position + offset;
         }
     }
 
@@ -60,9 +63,13 @@ public class PlayerCamera : MonoBehaviour {
 
         //Quaternion rotation = Quaternion.Euler(0, angle, 0);
         //transform.position = target.transform.position - (rotation * offset);
-        
-        
+
+        this.transform.position = target.transform.position + offset;
     }
 
-    
+    IEnumerator resetIsRotating() {
+        yield return new WaitForSeconds(3f);
+        isRotating = false;
+    }
+
 }
