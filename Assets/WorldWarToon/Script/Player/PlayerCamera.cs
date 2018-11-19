@@ -21,7 +21,6 @@ public class PlayerCamera : MonoBehaviour {
     private bool continueZoom;
 
     private void Start() {
-        //offset = new Vector3(target.transform.position.x, target.transform.position.y + 18, target.transform.position.z - 6);
         this.transform.position = target.transform.position + offset;
         cameraDistance = this.transform.position;
         needsCenter = false;
@@ -39,19 +38,11 @@ public class PlayerCamera : MonoBehaviour {
         /* This is for user zooming in and out using scroll wheel, the logic is wrong and needs to be worked on*/
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && mouseX == 0) {
             cameraDistance = this.transform.position;
-            Debug.Log("CameraDistance before: " + cameraDistance);
             cameraDistance.y -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
             cameraDistance.y = Mathf.Clamp(cameraDistance.y, cameraDistanceMin, cameraDistanceMax);
-            
-            
-            cameraDistance.x = ((cameraDistance.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad*(this.transform.rotation.y))));
-            Debug.Log(-Mathf.Sin(Mathf.Deg2Rad * (this.transform.rotation.y)));
-            cameraDistance.z = (((cameraDistance.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (this.transform.rotation.y)))));
-            
-
-            Debug.Log("CameraDistance after: " + cameraDistance);
+            cameraDistance.x = ((cameraDistance.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad*(this.transform.eulerAngles.y))));
+            cameraDistance.z = (((cameraDistance.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (this.transform.eulerAngles.y)))));
             offset = cameraDistance;
-            //Debug.Log(offset);
         }
 
         //this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(cameraDistance.x, cameraDistance.y, cameraDistance.z), 5f * Time.deltaTime);
