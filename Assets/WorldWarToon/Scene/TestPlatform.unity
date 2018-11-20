@@ -365,12 +365,12 @@ Prefab:
     - target: {fileID: 114351482447734340, guid: 5a385603a340337448171bcf303b619d,
         type: 2}
       propertyPath: panLimit.x
-      value: -3
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 114351482447734340, guid: 5a385603a340337448171bcf303b619d,
         type: 2}
       propertyPath: panLimit.y
-      value: -12
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 4363702256451930, guid: 5a385603a340337448171bcf303b619d, type: 2}
       propertyPath: m_LocalScale.y
@@ -379,12 +379,12 @@ Prefab:
     - target: {fileID: 114351482447734340, guid: 5a385603a340337448171bcf303b619d,
         type: 2}
       propertyPath: panLimit.z
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114351482447734340, guid: 5a385603a340337448171bcf303b619d,
         type: 2}
       propertyPath: panLimit.w
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4363702256451930, guid: 5a385603a340337448171bcf303b619d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -393,6 +393,11 @@ Prefab:
     - target: {fileID: 4363702256451930, guid: 5a385603a340337448171bcf303b619d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114351482447734340, guid: 5a385603a340337448171bcf303b619d,
+        type: 2}
+      propertyPath: scrollSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a385603a340337448171bcf303b619d, type: 2}
