@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+    public float speed;
     Rigidbody playerRigidBody;
-
+    
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
@@ -55,7 +56,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
         camRight.y = 0;
-        movement = ((camRight * h) + (camForward * v)).normalized * 0.1f;
+        movement = ((camRight * h) + (camForward * v)).normalized * speed * 0.01f;
         playerRigidBody.MovePosition(transform.position + movement);
     }
 }
