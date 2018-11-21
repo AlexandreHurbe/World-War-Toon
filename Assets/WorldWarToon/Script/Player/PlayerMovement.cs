@@ -17,8 +17,8 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
         
         Move(h, v);
     }
@@ -55,8 +55,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
         camRight.y = 0;
-        movement = ((camRight.normalized * h) + (camForward.normalized * v)) * 3f * Time.deltaTime;
-        movement.Set(movement.x, 0, movement.z);
+        movement = ((camRight * h) + (camForward * v)).normalized * 0.1f;
         playerRigidBody.MovePosition(transform.position + movement);
     }
 }
