@@ -16,9 +16,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+	void FixedUpdate () {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
         
         Move(h, v);
     }
