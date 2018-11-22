@@ -13,6 +13,9 @@ public class PlayerCamera : MonoBehaviour {
     public float rotationSmoothing;
 
     private Vector3 offset = new Vector3(0, 18, -6);
+
+    private Vector2 mousePosition;
+
     private Vector3 panOffset;
     private Vector3 cameraDistance;
     private Vector3 rotationPoint;
@@ -26,6 +29,7 @@ public class PlayerCamera : MonoBehaviour {
     float camRayLength = 100f;
 
     private void Start() {
+        Cursor.visible = false;
         this.transform.position = target.transform.position + offset;
         cameraDistance = this.transform.position;
         floorMask = LayerMask.GetMask("Floor");
@@ -36,19 +40,7 @@ public class PlayerCamera : MonoBehaviour {
 
     private void Update() {
 
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit floorHit;
-
-        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
-            Vector3 mousePosition = floorHit.point;
-            mousePosition.y = target.transform.position.y;
-            panOffset = (mousePosition - target.transform.position);
-            //Debug.Log(((mousePosition - target.transform.position)/10)+target.transform.position);
-        }
-
-
-
-
+      
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
@@ -63,20 +55,35 @@ public class PlayerCamera : MonoBehaviour {
         }
 
         if (Input.GetMouseButtonDown(2)) {
-            rotationPoint = target.transform.position + panOffset;
+            //rotationPoint = target.transform.position + panOffset;
+            mousePosition = Input.mousePosition;
+            rotationPoint = target.transform.position;
         }
 
         /* This is the rotation around the player */
         if (Input.GetMouseButton(2) && mouseX != 0) {
             isRotating = true;
+            //Cursor.lockState = CursorLockMode.Locked;
             transform.RotateAround(rotationPoint, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
             offset = this.transform.position - target.transform.position;
         }
 
         if (Input.GetMouseButtonUp(2)) {
             isRotating = false;
+            //Cursor.lockState = CursorLockMode.None;
         }
-        
+
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit floorHit;
+
+        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
+            Vector3 mousePosition = floorHit.point;
+            mousePosition.y = target.transform.position.y;
+            panOffset = (mousePosition - target.transform.position);
+            //Debug.Log(((mousePosition - target.transform.position)/10)+target.transform.position);
+        }
+
+
         ///*This allows users to extend their view also needs to be worked on*/
         //if (mouseX != 0 || mouseY != 0) {
 
@@ -105,28 +112,18 @@ public class PlayerCamera : MonoBehaviour {
             this.transform.position = target.transform.position + offset + (panOffset / 10);
         }
         //this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
-    }
-
-    
-    private void LateUpdate() {
-        //float currentAngle = transform.eulerAngles.y;
-        //float desiredAngle = target.transform.eulerAngles.y;
-        //float angle = Mathf.LerpAngle(currentAngle, desiredAngle, Time.deltaTime * rotationSmoothing);
-
-        //Quaternion rotation = Quaternion.Euler(0, angle, 0);
-        //transform.position = target.transform.position - (rotation * offset);
-        //this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
-
-        //this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
-        
-        
-        
-
-        /*if (needsCenter) {
-            this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 0.5f * Time.deltaTime);
-        }*/
 
     }
-    
+
+
+    private void OnGUI() {
+        if (isRotating) {
+            GUI.Box(new Rect(mousePosition.x, Screen.height - mousePosition.y, 10f, 10f), "Crosshair");
+        }
+        else {
+            GUI.Box(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 10f, 10f), "Crosshair");
+        }
+    }
+
 
 }
