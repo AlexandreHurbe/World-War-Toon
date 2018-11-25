@@ -56,7 +56,9 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
         camRight.y = 0;
-        movement = ((camRight * h) + (camForward * v)).normalized * speed * 0.01f;
+        
+        movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * speed * Time.deltaTime;
+        Debug.Log(((camRight.normalized * h) + (camForward.normalized * v)).normalized);
         playerRigidBody.MovePosition(transform.position + movement);
     }
 }

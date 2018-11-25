@@ -94,6 +94,8 @@ public class PlayerCamera : MonoBehaviour {
             
             transform.RotateAround(rotationPoint, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
             offset = this.transform.position - target.transform.position;
+            offset.x = Mathf.Clamp(offset.x, panLimit.x, panLimit.z);
+            offset.z = Mathf.Clamp(offset.z, panLimit.y, panLimit.w);
         }
 
         //When the player releases middle mouse click
@@ -109,15 +111,12 @@ public class PlayerCamera : MonoBehaviour {
             Vector3 mouseWorldPosition = floorHit.point;
             mouseWorldPosition.y = target.transform.position.y;
             panOffset = (mouseWorldPosition - target.transform.position);
-            if (panOffset.x < panLimit.x || panOffset.x > panLimit.z) {
-                Debug.Log("Too far in x");
-            }
-            if (panOffset.z < panLimit.y || panOffset.z > panLimit.w) {
-                Debug.Log("Too far in z");
-            }
-            panOffset.x = Mathf.Clamp(panOffset.x, panLimit.x, panLimit.z);
-            panOffset.z = Mathf.Clamp(panOffset.z, panLimit.y, panLimit.w);
-            
+
+            //Debug.Log("Before: " + panOffset);
+            panOffset.x = Mathf.Clamp(panOffset.x, panLimit.x - offset.x, panLimit.z - offset.x);
+            panOffset.z = Mathf.Clamp(panOffset.z, panLimit.y - offset.z, panLimit.w - offset.z);
+            //Debug.Log("After: " + panOffset);
+
         }
 
         //If the player is not rotating the camera then we want the cursor to follow. Otherwise we want the cursor to maintain a fixed position on the screen
