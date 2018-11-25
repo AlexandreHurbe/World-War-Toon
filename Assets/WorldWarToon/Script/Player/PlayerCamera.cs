@@ -35,7 +35,7 @@ public class PlayerCamera : MonoBehaviour {
     //Furhtest distance camera can get to player
     private float cameraDistanceMax = 18f;
     //Which axis to rotate about
-    private Vector3 rotationMask = new Vector3(0, 1, 0);
+    private Vector3 rotationMask = Vector3.up;
     //Bool to check if camera is still rotating
     private bool isRotating;
     //The invisible floor in game scene used for raycasting
@@ -45,23 +45,13 @@ public class PlayerCamera : MonoBehaviour {
 
 
 
-    public void Awake() {
-        //Disables cursor so we can use our own custom mouse
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        //Sets our custom mouse to middle of the screen
-        mousePosition.x = Screen.width / 2;
-        mousePosition.y = Screen.height / 2;
-        mousePosition.z = 0;
-    }
-
     private void Start() {
         this.transform.position = target.transform.position + offset;
         cameraDistance = this.transform.position;
         floorMask = LayerMask.GetMask("Floor");
         isRotating = false;
         
+
     }
 
 
@@ -70,6 +60,8 @@ public class PlayerCamera : MonoBehaviour {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        // get my mouse position from the MouseCursor Script
+        mousePosition = MouseCursor.mousePosition;
 
 
         /* This is for user zooming in and out using scroll wheel */
@@ -120,11 +112,6 @@ public class PlayerCamera : MonoBehaviour {
             
         }
 
-        //If the player is not rotating the camera then we want the cursor to follow. Otherwise we want the cursor to maintain a fixed position on the screen
-        if (!isRotating) {
-            mousePosition.x += mouseX * mouseSensitivity;
-            mousePosition.y += mouseY * mouseSensitivity;
-        }
        
         //Makes sure the camera ratios are maintained
         if (isRotating) {
@@ -138,12 +125,7 @@ public class PlayerCamera : MonoBehaviour {
     }
 
 
-    private void OnGUI() {
-        //This displays the mouse cursor on UI. Will be improved later but for testing purposes works fine
-        GUI.Box(new Rect(mousePosition.x-5, Screen.height - (mousePosition.y+5), 10, 10), "");
-
-
-    }
+ 
 
 
 }
