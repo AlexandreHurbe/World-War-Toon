@@ -57,8 +57,8 @@ public class MouseCursor : MonoBehaviour {
         mousePosX = Mathf.Clamp(mousePosX, min * Screen.width, max * Screen.width);
         mousePosY = Mathf.Clamp(mousePosY, min * Screen.height, max * Screen.height);
 
-        Debug.Log("mousePosX: " + mousePosX + " min: " + min * Screen.width);
-        Debug.Log("mousePosY: " + mousePosY);
+        //Debug.Log("mousePosX: " + mousePosX + " min: " + min * Screen.width);
+        //Debug.Log("mousePosY: " + mousePosY);
         mousePosition.x = mousePosX;
         mousePosition.y = mousePosY;
     }

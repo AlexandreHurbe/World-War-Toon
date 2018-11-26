@@ -91,6 +91,7 @@ public class PlayerCamera : MonoBehaviour {
         //When the player releases middle mouse click
         if (Input.GetMouseButtonUp(2)) {
             isRotating = false;
+            offset -= panOffset / 10;
         }
 
         Ray camRay = Camera.main.ScreenPointToRay(mousePosition);
