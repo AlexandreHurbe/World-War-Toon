@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
     public float speed;
     Rigidbody playerRigidBody;
-    
+    float h, v;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
@@ -15,12 +15,14 @@ public class PlayerMovement : MonoBehaviour {
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void LateUpdate () {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        
+
+    private void FixedUpdate()
+    {
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+    }
+    // Update is called once per frame
+    void Update () {     
         Move(h, v);
     }
 

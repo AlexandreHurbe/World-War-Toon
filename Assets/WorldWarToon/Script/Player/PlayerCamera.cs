@@ -42,7 +42,8 @@ public class PlayerCamera : MonoBehaviour {
     private int floorMask;
     //Distance to raycast
     private float camRayLength = 100f;
-
+    //whether the camera has rotated
+    private bool rotated;
 
 
     private void Start() {
@@ -50,7 +51,7 @@ public class PlayerCamera : MonoBehaviour {
         cameraDistance = this.transform.position;
         floorMask = LayerMask.GetMask("Floor");
         isRotating = false;
-        
+        rotated = false;
 
     }
 
@@ -78,6 +79,7 @@ public class PlayerCamera : MonoBehaviour {
         //Sets the rotation point for rotation
         if (Input.GetMouseButtonDown(2)) {
             rotationPoint = target.transform.position;
+            rotated = false;
         }
 
         //This is the rotation around the player
@@ -86,10 +88,12 @@ public class PlayerCamera : MonoBehaviour {
             
             transform.RotateAround(rotationPoint, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
             offset = this.transform.position - target.transform.position;
+            rotated = true;
+            
         }
 
         //When the player releases middle mouse click
-        if (Input.GetMouseButtonUp(2)) {
+        if (Input.GetMouseButtonUp(2) && rotated) {
             isRotating = false;
             offset -= panOffset / 10;
         }
