@@ -1,11 +1,27 @@
 fileFormatVersion: 2
 guid: 45fb3b613218da844b047d1f9349e0d6
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
+    100000: //RootNode
+    100002: Object004
+    100004: Object005
+    400000: //RootNode
+    400002: Object004
+    400004: Object005
+    2300000: Object004
+    2300002: Object005
+    3300000: Object004
+    3300002: Object005
     4300000: Object004
     4300002: Object005
-  externalObjects: {}
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #3'
+    second: {fileID: 2100000, guid: 60a704f901802f54e81671ec37a2c402, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -56,6 +72,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -75,7 +93,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
