@@ -14,12 +14,15 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody playerRigidBody;
     private Animator anim;
 
+    private Vector3 currentMoveSpeed;
+    private bool isMoving;
     private bool isSprinting;
+    private bool isCrouching;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-
+        currentMoveSpeed = new Vector3(0, 0, 0);
         isSprinting = false;
     }
 
@@ -37,11 +40,24 @@ public class PlayerMovement : MonoBehaviour {
         camForward = Camera.main.transform.forward;
         camRight = Camera.main.transform.right;
 
-        if (Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKey(KeyCode.LeftShift) && (h != 0 || v != 0)) {
             isSprinting = true;
         }
-        else {
+        else
+        {
             isSprinting = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (isCrouching)
+            {
+                isCrouching = false;
+            }
+            else
+            {
+                isCrouching = true;
+            }
         }
 
 
@@ -50,23 +66,31 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Animate(float h, float v) {
-        if (h == 0 && v == 0) {
-            anim.SetBool("isMoving", false);
-            anim.SetFloat("TurnSpeed", 0);
-        }
-        else {
-            if (isSprinting) {
-                anim.SetBool("isSprinting", true);
-            }
-            else {
-                anim.SetBool("isSprinting", false);
-            }
-            anim.SetBool("isMoving", true);
-        }
+        //if (h == 0 && v == 0) {
+        //    anim.SetBool("isSprinting", false);
+        //    anim.SetBool("isMoving", false);
+        //    anim.SetFloat("TurnSpeed", 0);
+        //}
+        //else {
+        //    if (isSprinting) {
+        //        anim.SetBool("isSprinting", true);
+        //    }
+        //    else {
+        //        anim.SetBool("isSprinting", false);
+        //    }
+        //    anim.SetBool("isMoving", true);
+        //}
 
-        Vector2 animMovement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized;
-        anim.SetFloat("Vertical", animMovement.y);
-        anim.SetFloat("Horizontal", animMovement.x);
+        //Vector2 animMovement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized;
+        //anim.SetFloat("Vertical", animMovement.y);
+        //anim.SetFloat("Horizontal", animMovement.x);
+
+
+        anim.SetBool("isCrouching", isCrouching);
+        //anim.SetBool("isSprinting", isSprinting);
+
+        anim.SetFloat("movementSpeed", currentMoveSpeed.magnitude);
+
     }
 
     private void Move(float h, float v) {
@@ -106,14 +130,18 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
         camRight.y = 0;
+
         if (isSprinting) {
+            //currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, (((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime).magnitude)
             movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime;
         }
         else {
             movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * speed * Time.deltaTime;
         }
-        
-        playerRigidBody.MovePosition(transform.position + movement);
+
+        Debug.Log(movement.magnitude);
+        currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, movement, Time.deltaTime * (4f));
+        playerRigidBody.MovePosition(transform.position + currentMoveSpeed);
 
 
 
