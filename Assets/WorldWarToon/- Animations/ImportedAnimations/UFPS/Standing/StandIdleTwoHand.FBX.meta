@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: b6d1eac615cb60b489e6caabba318be4
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: LArmCollarbone
     100002: LArmForearm1
@@ -147,7 +147,11 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
+      in configuration does not match rotation in animation file:\n\t'RArmUpper2'
+      : rotation error = 15.095075 deg\n\t'RArmForearm2' : rotation error = 7.636544
+      deg\n\t'LArmUpper2' : rotation error = 15.885992 deg\n\t'LArmForearm2' : rotation
+      error = 8.814374 deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
@@ -220,6 +224,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -406,22 +412,6 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Rmouth
-      humanName: RightEye
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Reyelid
-      humanName: Jaw
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     - boneName: LArmThumb1
       humanName: Left Thumb Proximal
       limit:
@@ -464,78 +454,6 @@ ModelImporter:
         modified: 0
     - boneName: LArmIndex3
       humanName: Left Index Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmMid1
-      humanName: Left Middle Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmMid2
-      humanName: Left Middle Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmMid3
-      humanName: Left Middle Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmRing1
-      humanName: Left Ring Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmRing2
-      humanName: Left Ring Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmRing3
-      humanName: Left Ring Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmPinky1
-      humanName: Left Little Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmPinky2
-      humanName: Left Little Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: LArmPinky3
-      humanName: Left Little Distal
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -590,6 +508,38 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: Spine3
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmMid1
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmMid2
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmMid3
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     - boneName: RArmMid1
       humanName: Right Middle Proximal
       limit:
@@ -608,6 +558,70 @@ ModelImporter:
         modified: 0
     - boneName: RArmMid3
       humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Reyelid
+      humanName: Jaw
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Rmouth
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmRing1
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmRing2
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmRing3
+      humanName: Left Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmPinky1
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmPinky2
+      humanName: Left Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LArmPinky3
+      humanName: Left Little Distal
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -662,14 +676,6 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine3
-      humanName: UpperChest
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     skeleton:
     - name: StandIdleTwoHand(Clone)
       parentName: 
@@ -684,17 +690,17 @@ ModelImporter:
     - name: LLegUpper
       parentName: Pelvis
       position: {x: 0.034340896, y: -0.0031900906, z: 0.08619214}
-      rotation: {x: -0.0042009517, y: 0.9880827, z: 0.14550379, w: 0.05003578}
+      rotation: {x: 0, y: 1, z: 0, w: 0}
       scale: {x: 1, y: 0.99999994, z: 0.99999994}
     - name: LLegCalf
       parentName: LLegUpper
       position: {x: -0.41554695, y: -0.0000000047683715, z: 0}
-      rotation: {x: -0.00023557094, y: -0.014767944, z: 0.09226898, w: 0.9956246}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1, z: 0.99999994}
     - name: LLegAnkle
       parentName: LLegCalf
       position: {x: -0.37377936, y: -0.0000000023841857, z: 0}
-      rotation: {x: -0.03953477, y: 0.053532906, z: -0.46232694, w: 0.88420874}
+      rotation: {x: 0, y: 0, z: -0.46174863, w: 0.8870109}
       scale: {x: 1.0000001, y: 1, z: 1.0000001}
     - name: LLegToe1
       parentName: LLegAnkle
@@ -704,17 +710,17 @@ ModelImporter:
     - name: RLegUpper
       parentName: Pelvis
       position: {x: 0.034340896, y: -0.0031900906, z: -0.08619214}
-      rotation: {x: -0.008451355, y: 0.98830867, z: -0.14594728, w: -0.043289408}
+      rotation: {x: 0, y: 1, z: 0, w: 0}
       scale: {x: 1, y: 1, z: 0.99999994}
     - name: RLegCalf
       parentName: RLegUpper
       position: {x: -0.41554695, y: 0.0000000047683715, z: 0}
-      rotation: {x: 0.0001722016, y: 0.016535046, z: 0.10337689, w: 0.9945048}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 0.99999994, z: 1}
     - name: RLegAnkle
       parentName: RLegCalf
       position: {x: -0.37377933, y: 0.0000000023841857, z: 0}
-      rotation: {x: 0.04844573, y: -0.045291513, z: -0.46904692, w: 0.88067967}
+      rotation: {x: 0, y: 0, z: -0.46174863, w: 0.8870109}
       scale: {x: 1, y: 1, z: 1}
     - name: RLegToe1
       parentName: RLegAnkle
@@ -739,32 +745,32 @@ ModelImporter:
     - name: LArmCollarbone
       parentName: Spine3
       position: {x: -0.21716292, y: -0.0000000047683715, z: 0.009166598}
-      rotation: {x: -0.03343284, y: 0.81054175, z: 0.038853005, w: 0.5834337}
+      rotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
       scale: {x: 0.99999994, y: 1, z: 1}
     - name: LArmUpper1
       parentName: LArmCollarbone
       position: {x: -0.17200969, y: 0, z: 0}
-      rotation: {x: 0.33791265, y: -0.15104267, z: 0.010874587, w: 0.92891496}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1.0000001, z: 1}
     - name: LArmUpper2
       parentName: LArmUpper1
       position: {x: -0.1335048, y: 0, z: -0.000000076293944}
-      rotation: {x: 0.13818774, y: -0.000000015787782, z: -0.000000005319943, w: 0.9904061}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 0.99999994, z: 1.0000001}
     - name: LArmForearm1
       parentName: LArmUpper2
       position: {x: -0.1335048, y: 0, z: 0.000000076293944}
-      rotation: {x: 0.49487472, y: -0.009988455, z: 0.0011832268, w: 0.86890614}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1, z: 1}
     - name: LArmForearm2
       parentName: LArmForearm1
       position: {x: -0.13349839, y: 0.000000076293944, z: 0}
-      rotation: {x: -0.076844096, y: -5.725332e-10, z: 0.000000007428551, w: 0.99704313}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.9999999, y: 0.9999998, z: 1}
     - name: LArmHand
       parentName: LArmForearm2
-      position: {x: -0.13349839, y: 0.000000076293944, z: 0.000000076293944}
-      rotation: {x: 0.95748454, y: 0.037338752, z: -0.07274703, w: -0.27665347}
+      position: {x: -0.13350978, y: 0.000000046491632, z: 0.00000005960463}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
       scale: {x: 0.9999997, y: 0.9999999, z: 1}
     - name: LArmIndex1
       parentName: LArmHand
@@ -784,7 +790,7 @@ ModelImporter:
     - name: LArmMid1
       parentName: LArmHand
       position: {x: -0.0970145, y: -0.008409653, z: -0.0058332444}
-      rotation: {x: 0.13452092, y: -0.036989126, z: -0.019958789, w: 0.99001896}
+      rotation: {x: 0.13452093, y: -0.03698913, z: -0.01995879, w: 0.990019}
       scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
     - name: LArmMid2
       parentName: LArmMid1
@@ -799,7 +805,7 @@ ModelImporter:
     - name: LArmPinky1
       parentName: LArmHand
       position: {x: -0.090511054, y: -0.0026821136, z: 0.045439813}
-      rotation: {x: 0.09884965, y: -0.03354314, z: -0.016039835, w: 0.9944075}
+      rotation: {x: 0.098849654, y: -0.033543143, z: -0.016039837, w: 0.99440753}
       scale: {x: 0.99999994, y: 0.9999998, z: 0.9999999}
     - name: LArmPinky2
       parentName: LArmPinky1
@@ -814,7 +820,7 @@ ModelImporter:
     - name: LArmRing1
       parentName: LArmHand
       position: {x: -0.0997536, y: -0.007782364, z: 0.021833133}
-      rotation: {x: 0.10954886, y: -0.039391465, z: -0.016060269, w: 0.9930708}
+      rotation: {x: 0.10954886, y: -0.03939146, z: -0.016060269, w: 0.99307066}
       scale: {x: 0.9999998, y: 0.99999994, z: 0.9999999}
     - name: LArmRing2
       parentName: LArmRing1
@@ -829,12 +835,12 @@ ModelImporter:
     - name: LArmThumb1
       parentName: LArmHand
       position: {x: -0.009992866, y: 0.014167937, z: -0.03252058}
-      rotation: {x: -0.51650405, y: 0.28547022, z: -0.09414425, w: 0.80179}
+      rotation: {x: -0.63534516, y: -0.26287848, z: -0.2625262, w: 0.6769871}
       scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
     - name: LArmThumb2
       parentName: LArmThumb1
       position: {x: -0.03833393, y: 0, z: -0.000000076293944}
-      rotation: {x: 0.04606499, y: 0.015062388, z: 0.034621365, w: 0.99822474}
+      rotation: {x: 0.04606499, y: 0.015062418, z: 0.034621365, w: 0.99822474}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: LArmThumb3
       parentName: LArmThumb2
@@ -890,32 +896,32 @@ ModelImporter:
     - name: RArmCollarbone
       parentName: Spine3
       position: {x: -0.21716292, y: -0.0000000035762786, z: -0.009166599}
-      rotation: {x: -0.057589076, y: -0.7293735, z: 0.077273734, w: 0.67729354}
+      rotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
       scale: {x: 1, y: 0.99999994, z: 0.99999994}
     - name: RArmUpper1
       parentName: RArmCollarbone
       position: {x: -0.17200969, y: 0, z: 0.00000015258789}
-      rotation: {x: -0.4065792, y: 0.0476301, z: -0.068313316, w: 0.9098121}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1, z: 1}
     - name: RArmUpper2
       parentName: RArmUpper1
       position: {x: -0.13350487, y: 0, z: -0.000000076293944}
-      rotation: {x: -0.13134867, y: -0.0000000147720645, z: -0.000000001957248, w: 0.9913363}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.99999994, y: 1, z: 0.99999994}
     - name: RArmForearm1
       parentName: RArmUpper2
       position: {x: -0.1335048, y: 0, z: 0.000000076293944}
-      rotation: {x: -0.4659881, y: -0.0076096402, z: 0.01607122, w: 0.8846123}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 0.99999994, z: 1}
     - name: RArmForearm2
       parentName: RArmForearm1
       position: {x: -0.13349839, y: 0, z: 0.000000076293944}
-      rotation: {x: -0.06659211, y: 0.0000000017324214, z: 0.000000029984243, w: 0.99778026}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: RArmHand
       parentName: RArmForearm2
-      position: {x: -0.1334984, y: 0, z: 0}
-      rotation: {x: 0.32778105, y: -0.26801562, z: -0.19710535, w: 0.8842379}
+      position: {x: -0.13350955, y: 0.000000002384236, z: -0.000000050067847}
+      rotation: {x: -0.8420218, y: 0.000000059604638, z: -0, w: 0.53944355}
       scale: {x: 0.99999994, y: 0.9999999, z: 0.99999976}
     - name: RArmIndex1
       parentName: RArmHand
@@ -980,7 +986,7 @@ ModelImporter:
     - name: RArmThumb1
       parentName: RArmHand
       position: {x: -0.009993133, y: 0.014168014, z: 0.0325206}
-      rotation: {x: 0.4761449, y: 0.29429743, z: -0.22934806, w: 0.796288}
+      rotation: {x: 0.44583893, y: 0.37857553, z: -0.027424898, w: 0.81065166}
       scale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
     - name: RArmThumb2
       parentName: RArmThumb1
@@ -1005,12 +1011,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 78182a1a7ef326d4eb52639023ff183c,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 3
   humanoidOversampling: 1
   additionalBone: 0

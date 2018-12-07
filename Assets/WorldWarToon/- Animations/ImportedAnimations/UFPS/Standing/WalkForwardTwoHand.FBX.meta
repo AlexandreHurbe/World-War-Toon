@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 6999b1a7dfb894c4186288be26394652
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: LArmCollarbone
     100002: LArmForearm1
@@ -219,6 +219,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -677,7 +679,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: Pelvis
       parentName: WalkForwardTwoHand(Clone)
-      position: {x: -0.00007629166, y: 0.9295171, z: 0.014777262}
+      position: {x: -0.00007629166, y: 0.9637914, z: 0.014777262}
       rotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: LLegUpper
@@ -762,8 +764,8 @@ ModelImporter:
       scale: {x: 0.9999999, y: 1, z: 0.99999994}
     - name: LArmHand
       parentName: LArmForearm2
-      position: {x: -0.13349839, y: 0, z: -0.000000076293944}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      position: {x: -0.1335128, y: 0.0000000017315851, z: -0.0000001247122}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
       scale: {x: 0.9999997, y: 0.9999997, z: 0.9999997}
     - name: LArmIndex1
       parentName: LArmHand
@@ -828,7 +830,7 @@ ModelImporter:
     - name: LArmThumb1
       parentName: LArmHand
       position: {x: -0.009992904, y: 0.014168014, z: -0.0325206}
-      rotation: {x: 0, y: 0, z: -0.3262612, w: 0.9452797}
+      rotation: {x: -0.13069694, y: -0.37866417, z: -0.0016925776, w: 0.91625816}
       scale: {x: 1.0000002, y: 1.0000002, z: 1}
     - name: LArmThumb2
       parentName: LArmThumb1
@@ -914,7 +916,7 @@ ModelImporter:
     - name: RArmHand
       parentName: RArmForearm2
       position: {x: -0.13349839, y: 0.00000015258789, z: -0.000000114440915}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
       scale: {x: 0.9999999, y: 0.99999994, z: 1}
     - name: RArmIndex1
       parentName: RArmHand
@@ -979,7 +981,7 @@ ModelImporter:
     - name: RArmThumb1
       parentName: RArmHand
       position: {x: -0.00999298, y: 0.014167995, z: 0.03252052}
-      rotation: {x: 0.4057011, y: 0.023659432, z: -0.33652958, w: 0.84946734}
+      rotation: {x: 0.50772774, y: 0.36272803, z: -0.13327453, w: 0.7699862}
       scale: {x: 1, y: 0.99999994, z: 1}
     - name: RArmThumb2
       parentName: RArmThumb1
@@ -1004,12 +1006,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: b6d1eac615cb60b489e6caabba318be4,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 3
   humanoidOversampling: 1
   additionalBone: 0

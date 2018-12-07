@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         Debug.Log(movement.magnitude);
-        currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, movement, Time.deltaTime * (4f));
+        currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, movement, Time.deltaTime * (10f));
         playerRigidBody.MovePosition(transform.position + currentMoveSpeed);
 
 
