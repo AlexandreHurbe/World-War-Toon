@@ -136,7 +136,7 @@ public class PlayerCamera : MonoBehaviour {
             mousePosition.y += mouseY * mouseSensitivity;
         }
 
-        this.transform.position = target.transform.position + offset + (panOffset / 10);
+        //this.transform.position = target.transform.position + offset + (panOffset / 10);
 
         ////Makes sure the camera ratios are maintained
         //if (isRotating)
@@ -148,7 +148,7 @@ public class PlayerCamera : MonoBehaviour {
         //    this.transform.position = target.transform.position + offset + (panOffset / 10);
         //    //this.transform.position = target.transform.position + offset + panOffset;
         //}
-        //this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset, 5f * Time.deltaTime);
+        this.transform.position = Vector3.Lerp(this.transform.position, target.transform.position + offset + (panOffset / 10), 5f * Time.deltaTime);
 
     }
 
@@ -157,7 +157,7 @@ public class PlayerCamera : MonoBehaviour {
         this.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x, this.transform.localEulerAngles.y + rotationSpeed * mouseX * Time.deltaTime, this.transform.localEulerAngles.z);
         float x = ((cameraDistance.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad * (this.transform.eulerAngles.y))));
         float z = (((cameraDistance.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (this.transform.eulerAngles.y)))));
-        this.transform.position = new Vector3(x, this.transform.position.y, z);
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
         offset = this.transform.position - target.transform.position;
     }
 
