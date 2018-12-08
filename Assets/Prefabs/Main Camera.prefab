@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 20449858984234714}
   - component: {fileID: 124967279696981656}
   - component: {fileID: 81093812611616828}
-  - component: {fileID: 114216416802586236}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -37,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1970539953173144}
   m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: -0.8067907, y: 12.060444, z: -3.9739647}
+  m_LocalPosition: {x: -5.87, y: 12.8, z: -1.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -90,23 +89,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1970539953173144}
   m_Enabled: 1
---- !u!114 &114216416802586236
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1970539953173144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d27cf0009728f41b8223eb53aa2264, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  panLimit: {x: -5, y: -8, z: 5, w: 5}
-  mouseSensitivity: 10
-  rotationSpeed: 50
-  scrollSpeed: 10
-  smoothing: 1
 --- !u!124 &124967279696981656
 Behaviour:
   m_ObjectHideFlags: 1

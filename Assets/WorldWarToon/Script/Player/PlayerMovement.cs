@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
     public float speed;
     public float sprintSpeed;
+    public float crouchSpeed;
+    public float crouchSprintSpeed;
     public float rotationSpeed = 30f;
 
 
-
+    private PlayerCamera PlayerCameraScript;
     private Vector3 camForward;
     private Vector3 camRight;
     private Rigidbody playerRigidBody;
@@ -17,19 +19,23 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 currentMoveSpeed;
     private bool isMoving;
     private bool isSprinting;
+    private bool canCrouch;
     private bool isCrouching;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
+        PlayerCameraScript = GetComponent<PlayerCamera>();
+
         anim = GetComponent<Animator>();
         currentMoveSpeed = new Vector3(0, 0, 0);
         isSprinting = false;
+        canCrouch = true;
     }
 
     // Use this for initialization
     void Start () {
-        camForward = Camera.main.transform.forward;
-        camRight = Camera.main.transform.right;
+        camForward = PlayerCameraScript.getPlayerCamera().transform.forward;
+        camRight = PlayerCameraScript.getPlayerCamera().transform.right;
     }
 	
 	// Update is called once per frame
@@ -37,8 +43,8 @@ public class PlayerMovement : MonoBehaviour {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        camForward = Camera.main.transform.forward;
-        camRight = Camera.main.transform.right;
+        camForward = PlayerCameraScript.getPlayerCamera().transform.forward;
+        camRight = PlayerCameraScript.getPlayerCamera().transform.right;
 
         if (Input.GetKey(KeyCode.LeftShift) && (h != 0 || v != 0)) {
             isSprinting = true;
@@ -48,8 +54,10 @@ public class PlayerMovement : MonoBehaviour {
             isSprinting = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && canCrouch)
         {
+            StartCoroutine(canCrouchRoutine());
+            
             if (isCrouching)
             {
                 isCrouching = false;
@@ -84,8 +92,7 @@ public class PlayerMovement : MonoBehaviour {
         //Vector2 animMovement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized;
         //anim.SetFloat("Vertical", animMovement.y);
         //anim.SetFloat("Horizontal", animMovement.x);
-
-
+        
         anim.SetBool("isCrouching", isCrouching);
         //anim.SetBool("isSprinting", isSprinting);
 
@@ -97,50 +104,66 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movement = new Vector3 (0, 0, 0);
 
 
+        Transform playerCamera = PlayerCameraScript.getPlayerCamera().transform;
 
         if (v > 0 && h > 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y + 45, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y + 45, transform.localEulerAngles.z);
         }
         else if (v > 0 && h < 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y - 45, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y - 45, transform.localEulerAngles.z);
         }
         else if (v < 0 && h > 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y + 135, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y + 135, transform.localEulerAngles.z);
         }
         else if (v < 0 && h < 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y + 225, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y + 225, transform.localEulerAngles.z);
         }
         else if (v > 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y, transform.localEulerAngles.z);
         }
         else if (v < 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y + 180, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y + 180, transform.localEulerAngles.z);
         }
         else if (h > 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y + 90, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y + 90, transform.localEulerAngles.z);
         }
         else if (h < 0) {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Camera.main.transform.localEulerAngles.y - 90, transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, playerCamera.localEulerAngles.y - 90, transform.localEulerAngles.z);
         }
 
 
         
-
-        Vector3 camForward = Camera.main.transform.forward;
-        Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
         camRight.y = 0;
 
-        if (isSprinting) {
-            //currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, (((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime).magnitude)
-            movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime;
+        if (isCrouching)
+        {
+            if (isSprinting)
+            {
+                
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * crouchSprintSpeed * Time.deltaTime;
+            }
+            else
+            {
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * crouchSpeed * Time.deltaTime;
+            }
         }
-        else {
-            movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * speed * Time.deltaTime;
+        else
+        {
+            if (isSprinting)
+            {
+                
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime;
+            }
+            else
+            {
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * speed * Time.deltaTime;
+            }
         }
+        
 
-        Debug.Log(movement.magnitude);
-        currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, movement, Time.deltaTime * (10f));
+        //Debug.Log(movement.magnitude);
+        currentMoveSpeed = Vector3.Lerp(currentMoveSpeed, movement, Time.deltaTime * (20f));
         playerRigidBody.MovePosition(transform.position + currentMoveSpeed);
 
 
@@ -229,4 +252,11 @@ public class PlayerMovement : MonoBehaviour {
     }
     */
 
+
+    IEnumerator canCrouchRoutine()
+    {
+        canCrouch = false;
+        yield return new WaitForSeconds(0.1f);
+        canCrouch = true;
+    }
 }

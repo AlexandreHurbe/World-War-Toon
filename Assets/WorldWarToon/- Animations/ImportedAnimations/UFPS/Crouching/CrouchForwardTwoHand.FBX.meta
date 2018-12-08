@@ -176,14 +176,14 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 40
       wrapMode: 0
-      orientationOffsetY: -11
+      orientationOffsetY: -13
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
+      loopBlendOrientation: 1
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
@@ -727,17 +727,17 @@ ModelImporter:
     - name: Spine1
       parentName: Pelvis
       position: {x: 0, y: 0, z: 0}
-      rotation: {x: -0.031148061, y: -0.020401955, z: -0.00063590705, w: 0.9993064}
+      rotation: {x: -0, y: 0.059944123, z: 0.000000014901161, w: 0.9982018}
       scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
     - name: Spine2
       parentName: Spine1
-      position: {x: -0.20237981, y: -0.00000008335335, z: 0.0000000014260871}
-      rotation: {x: 0.03200571, y: 0.000000052154057, z: -0.000000021420417, w: 0.9994877}
+      position: {x: -0.20237993, y: -0.00000006848525, z: 0.0000000057480043}
+      rotation: {x: 0.03200391, y: -0.010742736, z: -0.00034394534, w: 0.99943}
       scale: {x: 1.0000002, y: 1, z: 1.0000001}
     - name: Spine3
       parentName: Spine2
-      position: {x: -0.20237976, y: -0.000000076293944, z: 0}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      position: {x: -0.20237973, y: -0.00000006961636, z: 0.00000001544049}
+      rotation: {x: -0.110582754, y: -0.011400591, z: -0.0012685243, w: 0.99380076}
       scale: {x: 0.9999999, y: 0.9999998, z: 0.9999999}
     - name: LArmCollarbone
       parentName: Spine3
@@ -756,8 +756,8 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: LArmForearm1
       parentName: LArmUpper2
-      position: {x: -0.1335048, y: 0, z: 0.000000038146972}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      position: {x: -0.13351205, y: -0.0000011257224, z: -0.00000049435664}
+      rotation: {x: 0.026348127, y: 0.00000003169331, z: -0.000000006986157, w: 0.9996528}
       scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
     - name: LArmForearm2
       parentName: LArmForearm1
@@ -767,7 +767,7 @@ ModelImporter:
     - name: LArmHand
       parentName: LArmForearm2
       position: {x: -0.13349839, y: -0.000000019073486, z: 0}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      rotation: {x: 0.53729963, y: 0, z: 0, w: 0.8433915}
       scale: {x: 1.0000005, y: 1.0000004, z: 1.0000001}
     - name: LArmIndex1
       parentName: LArmHand
@@ -832,7 +832,7 @@ ModelImporter:
     - name: LArmThumb1
       parentName: LArmHand
       position: {x: -0.010003548, y: 0.014167917, z: -0.032521192}
-      rotation: {x: 0.028568748, y: -0.05068717, z: -0.2768329, w: 0.95915496}
+      rotation: {x: -0.049688067, y: -0.3019244, z: -0.18205124, w: 0.9344679}
       scale: {x: 0.9999997, y: 0.9999995, z: 0.9999996}
     - name: LArmThumb2
       parentName: LArmThumb1
@@ -846,13 +846,13 @@ ModelImporter:
       scale: {x: 1.0000001, y: 1.0000002, z: 1}
     - name: Neck1
       parentName: Spine3
-      position: {x: -0.25793365, y: 0.000000098780454, z: -0.00000026043904}
-      rotation: {x: -0.2081636, y: 0.054363947, z: -0.24676767, w: 0.94489056}
+      position: {x: -0.25793362, y: 0.0000001061708, z: -0.00000026561614}
+      rotation: {x: -0.000000052154057, y: 0.00000004936009, z: -0.25399467, w: 0.9672057}
       scale: {x: 0.99999994, y: 0.9999999, z: 0.99999994}
     - name: NeckHead
       parentName: Neck1
-      position: {x: -0.072050326, y: -0.00000038463628, z: 0.000000013038518}
-      rotation: {x: 0.16671878, y: -0.035073455, z: 0.06235185, w: 0.9834058}
+      position: {x: -0.072050326, y: -0.00000032689425, z: -0.00000013144147}
+      rotation: {x: 0.1295613, y: -0.000000043613678, z: 0.00000016219643, w: 0.9915714}
       scale: {x: 1.0000001, y: 1.0000001, z: 0.99999994}
     - name: Lbrow
       parentName: NeckHead
@@ -911,8 +911,8 @@ ModelImporter:
       scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
     - name: RArmHand
       parentName: RArmForearm2
-      position: {x: -0.13349834, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      position: {x: -0.13349831, y: 0.000000055812592, z: -0.00000013293209}
+      rotation: {x: -0.53729963, y: 0, z: 0, w: 0.8433914}
       scale: {x: 0.9999999, y: 0.9999998, z: 0.9999998}
     - name: M4MB
       parentName: RArmHand
@@ -982,7 +982,7 @@ ModelImporter:
     - name: RArmThumb1
       parentName: RArmHand
       position: {x: -0.00999298, y: 0.014168014, z: 0.0325206}
-      rotation: {x: 0.420674, y: 0.08422177, z: -0.33912906, w: 0.8372166}
+      rotation: {x: 0.48628417, y: 0.28661153, z: -0.24980134, w: 0.7867534}
       scale: {x: 0.99999994, y: 1, z: 0.9999999}
     - name: RArmThumb2
       parentName: RArmThumb1

@@ -149,8 +149,8 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
       in configuration does not match rotation in animation file:\n\t'RArmForearm2'
-      : rotation error = 4.985361 deg\n\t'LArmUpper2' : rotation error = 2.361096
-      deg\n\t'LArmForearm2' : rotation error = 5.543330 deg\n"
+      : rotation error = 4.985354 deg\n\t'LArmUpper2' : rotation error = 2.361093
+      deg\n\t'LArmForearm2' : rotation error = 5.543336 deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
@@ -177,7 +177,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 20
       wrapMode: 0
-      orientationOffsetY: 15
+      orientationOffsetY: -9
       level: 0
       cycleOffset: 0
       loop: 0
@@ -187,7 +187,7 @@ ModelImporter:
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
@@ -683,7 +683,7 @@ ModelImporter:
     - name: Pelvis
       parentName: RunForwardTwoHand(Clone)
       position: {x: 0.00535889, y: 0.94598264, z: 0.014785128}
-      rotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
+      rotation: {x: 0.51322675, y: -0.4864138, z: -0.4864138, w: 0.51322675}
       scale: {x: 1, y: 1, z: 1}
     - name: LLegUpper
       parentName: Pelvis
@@ -767,8 +767,8 @@ ModelImporter:
       scale: {x: 0.9999999, y: 0.9999998, z: 1}
     - name: LArmHand
       parentName: LArmForearm2
-      position: {x: -0.13349839, y: 0.000000076293944, z: 0.000000076293944}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      position: {x: -0.13350764, y: -0.0000012876384, z: -0.0000002662259}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
       scale: {x: 0.9999997, y: 0.9999999, z: 1}
     - name: LArmIndex1
       parentName: LArmHand
@@ -833,7 +833,7 @@ ModelImporter:
     - name: LArmThumb1
       parentName: LArmHand
       position: {x: -0.010003585, y: 0.014167776, z: -0.03252206}
-      rotation: {x: 0.22711143, y: -0.20251063, z: -0.27229208, w: 0.9128346}
+      rotation: {x: 0.10301431, y: -0.37683833, z: 0.059182443, w: 0.9186286}
       scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
     - name: LArmThumb2
       parentName: LArmThumb1
@@ -919,7 +919,7 @@ ModelImporter:
     - name: RArmHand
       parentName: RArmForearm2
       position: {x: -0.1334984, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
+      rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
       scale: {x: 0.99999994, y: 0.9999999, z: 0.99999976}
     - name: RArmIndex1
       parentName: RArmHand
@@ -984,7 +984,7 @@ ModelImporter:
     - name: RArmThumb1
       parentName: RArmHand
       position: {x: -0.009993133, y: 0.014168014, z: 0.0325206}
-      rotation: {x: 0.40828583, y: 0.086378746, z: -0.33154592, w: 0.8461199}
+      rotation: {x: 0.5067406, y: 0.3745564, z: -0.108247854, w: 0.76889783}
       scale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
     - name: RArmThumb2
       parentName: RArmThumb1
