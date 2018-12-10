@@ -19,14 +19,17 @@ public class PlayerCamera : MonoBehaviour {
     public float smoothing = 15f;
 
 
-    //Private Components
+    //PRIVATE COMPONENTS \\ 
     //PlayerShooting component 
     private PlayerShooting playerShooting;
 
 
     //  PRIVATE VARIABLES  \\
-    //Initial offset of camera from player
-    private Vector3 startOffset = new Vector3(0, 18, -6);
+    //The Camera object associated with the player
+    private Camera playerCamera;
+    //The initial rotation of the camera
+    private Vector3 cameraRotation = new Vector3(70, 0, 0);
+    //Initial offset of camera from player 
     private Vector3 offset = new Vector3(0, 18, -6);
     //Mouse position in screen space
     private Vector3 mousePosition;
@@ -50,9 +53,7 @@ public class PlayerCamera : MonoBehaviour {
     private int floorMask;
     //Distance to raycast
     private float camRayLength = 100f;
-
-    private Camera playerCamera;
-    private Vector3 cameraRotation = new Vector3 (70, 0, 0);
+    
 
 
     public void Awake() {
@@ -60,17 +61,22 @@ public class PlayerCamera : MonoBehaviour {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        //Gets shooting component
+        playerShooting = GetComponent<PlayerShooting>();
+
         //Sets our custom mouse to middle of the screen
         mousePosition.x = Screen.width / 2;
         mousePosition.y = Screen.height / 2;
         mousePosition.z = 0;
 
+        //Creating player camera
         playerCamera = Instantiate(instantiateCamera, this.transform.position + offset, Quaternion.Euler(cameraRotation));
 
-        playerShooting = GetComponent<PlayerShooting>();
+        
     }
 
     private void Start() {
+        //Gets the floor layer so all raycast are to this floor 
         floorMask = LayerMask.GetMask("Floor");
         isRotating = false;
         
@@ -105,6 +111,8 @@ public class PlayerCamera : MonoBehaviour {
             mouseWorldPosition.y = this.transform.position.y;
 
             panOffset = mouseWorldPosition - this.transform.position;
+
+            //The pan offset needs to be finetuned. It has just been left out for now
             //panOffset.x = (mouseWorldPosition.x - target.transform.position.x + offset.x);
             //panOffset.z = (mouseWorldPosition.z - target.transform.position.z + offset.z);
             //panOffset = panOffset / 10;
@@ -144,33 +152,21 @@ public class PlayerCamera : MonoBehaviour {
             mousePosition.y += mouseY * mouseSensitivity;
         }
 
-        //this.transform.position = target.transform.position + offset + (panOffset / 10);
-
-        ////Makes sure the camera ratios are maintained
-        //if (isRotating)
-        //{
-        //    this.transform.position = target.transform.position + offset;
-        //}
-        //else
-        //{
-        //    this.transform.position = target.transform.position + offset + (panOffset / 10);
-        //    //this.transform.position = target.transform.position + offset + panOffset;
-        //}
         playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset / 10), smoothing * Time.deltaTime);
         
 
     }
 
+    //Calculates rotation values for camera rotation and calculates the offset
     private void rotateCamera(float mouseX)
     {
         
         playerCamera.transform.eulerAngles = new Vector3(playerCamera.transform.eulerAngles.x, playerCamera.transform.eulerAngles.y + rotationSpeed * mouseX * Time.deltaTime, playerCamera.transform.eulerAngles.z);
         float x = ((playerCamera.transform.position.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad * (playerCamera.transform.eulerAngles.y))));
         float z = (((playerCamera.transform.position.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (playerCamera.transform.eulerAngles.y)))));
-        //this.transform.position = new Vector3(target.transform.position.x + x, this.transform.position.y, target.transform.position.z + z);
         offset = new Vector3(x, playerCamera.transform.position.y, z);
         offset.y = Mathf.Clamp(offset.y, cameraDistanceMin, cameraDistanceMax);
-        Debug.Log(offset);
+        
     }
 
 
@@ -199,26 +195,12 @@ public class PlayerCamera : MonoBehaviour {
         if (!playerShooting.getIsAiming())
         {
             //This displays the mouse cursor on UI. Will be improved later but for testing purposes works fine
-            
             GUI.Box(new Rect(mousePosition.x - 5, Screen.height - (mousePosition.y + 5), 10, 10), "");
 
         }
         else
         {
-            //GUI.Box(new Rect(mousePosition.x, Screen.height - (mousePosition.y), 10, 10), "");
-
-            ////up rect
-            //GUI.DrawTexture(new Rect(mousePosition.x - width / 2, ((Screen.height - mousePosition.y) - (height*2)), width, height), texture);
-
-            ////down rect
-            //GUI.DrawTexture(new Rect(mousePosition.x - width / 2, ((Screen.height - mousePosition.y) + (height * 2)), width, height), texture);
-
-            ////left rect
-            //GUI.DrawTexture(new Rect((mousePosition.x - (height * 2)) , (Screen.height - mousePosition.y), height, width), texture);
-
-            ////right rect
-            //GUI.DrawTexture(new Rect((mousePosition.x + (height * 2)), (Screen.height - mousePosition.y), height, width), texture);
-
+            //This creates a really crappy cross hair this will either need to be done using UI/a canvas. This is done when player is aiming
             //up rect
             GUI.DrawTexture(new Rect(mousePosition.x - width / 2, ((Screen.height - mousePosition.y) - height), width, height), texture);
 

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+
+    // PUBLIC VARIABLES \\
     public float speed;
     public float sprintSpeed;
     public float crouchSpeed;
     public float crouchSprintSpeed;
     public float rotationSpeed = 30f;
 
-
+    //PRIVATE COMPONENTS \\
     private PlayerCamera playerCamera;
     private PlayerShooting playerShooting;
     private Vector3 camForward;
@@ -17,6 +19,7 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody playerRigidBody;
     private Animator anim;
 
+    // PRIVATE VARIABLES \\
     private Vector3 currentMoveSpeed;
     private bool isAiming;
     private bool isMoving;
@@ -28,7 +31,6 @@ public class PlayerMovement : MonoBehaviour {
         playerRigidBody = GetComponent<Rigidbody>();
         playerCamera = GetComponent<PlayerCamera>();
         playerShooting = GetComponent<PlayerShooting>();
-
         anim = GetComponent<Animator>();
         
         isSprinting = false;
@@ -61,6 +63,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && canCrouch)
         {
+            //This is one because the input can be detected several times in one frame thus cancelling the crouch.
             StartCoroutine(canCrouchRoutine());
             
             if (isCrouching)
@@ -85,6 +88,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (isAiming)
         {
+            //Animation stuff you can ignore
             Vector3 movementSelf = (this.transform.right.normalized * h) + (this.transform.forward.normalized * v);
             anim.SetFloat("Horizontal", movementSelf.x);
             anim.SetFloat("Vertical", movementSelf.z);
@@ -102,8 +106,11 @@ public class PlayerMovement : MonoBehaviour {
 
 
         Transform playerCameraTransform = playerCamera.getPlayerCamera().transform;
+
+        //When not aiming, player should be always facing the direction they are moving
         if (!isAiming)
         {
+            //Forward Right
             if (v > 0 && h > 0)
             {
                 float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 45, Time.deltaTime *20f);
@@ -112,14 +119,17 @@ public class PlayerMovement : MonoBehaviour {
                 
 
             }
+            //Forward Left
             else if (v > 0 && h < 0)
             {
-                float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 315, Time.deltaTime * 20f);
+                float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y - 45, Time.deltaTime * 20f);
                 Vector3 newAngle = new Vector3(transform.localEulerAngles.x, newY, transform.localEulerAngles.z);
                 transform.localEulerAngles = newAngle;
 
                 
             }
+            
+            //Backward right
             else if (v < 0 && h > 0)
             {
                 float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 135, Time.deltaTime * 20f);
@@ -127,14 +137,18 @@ public class PlayerMovement : MonoBehaviour {
                 transform.localEulerAngles = newAngle;
                 
             }
+
+            //Backward left
             else if (v < 0 && h < 0)
             {
-                float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 225, Time.deltaTime * 20f);
+                float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y - 135, Time.deltaTime * 20f);
                 Vector3 newAngle = new Vector3(transform.localEulerAngles.x, newY, transform.localEulerAngles.z);
                 transform.localEulerAngles = newAngle;
 
                 
             }
+
+            //Forward
             else if (v > 0)
             {
                 float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y, Time.deltaTime * 20f);
@@ -143,6 +157,8 @@ public class PlayerMovement : MonoBehaviour {
 
 
             }
+
+            //Backward
             else if (v < 0)
             {
                 float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 180, Time.deltaTime * 20f);
@@ -152,6 +168,8 @@ public class PlayerMovement : MonoBehaviour {
 
                 
             }
+
+            //Right
             else if (h > 0)
             {
                 float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 90, Time.deltaTime * 20f);
@@ -160,9 +178,11 @@ public class PlayerMovement : MonoBehaviour {
 
                 
             }
+
+            //Left
             else if (h < 0)
             {
-                float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y + 270, Time.deltaTime * 20f);
+                float newY = Mathf.Lerp(transform.localEulerAngles.y, playerCameraTransform.localEulerAngles.y -90, Time.deltaTime * 20f);
                 Vector3 newAngle = new Vector3(transform.localEulerAngles.x, newY, transform.localEulerAngles.z);
                 transform.localEulerAngles = newAngle;
 
@@ -173,8 +193,10 @@ public class PlayerMovement : MonoBehaviour {
         camForward.y = 0;
         camRight.y = 0;
 
+        //Checks if the user is sprinting while crouched
         if (isCrouching)
         {
+            //if sprinting while crouched
             if (isSprinting)
             {
                 
@@ -187,6 +209,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
+            //if sprinting while standing   
             if (isSprinting)
             {
                 

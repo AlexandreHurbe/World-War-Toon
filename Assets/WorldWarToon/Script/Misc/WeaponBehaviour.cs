@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponBehaviour : MonoBehaviour {
+    //THIS CLASS IS INHERITED BY ALL GUNS, THIS IS STILL A WORK IN PROGRESS
 
+
+    //PROTECTED VARIABLES\\
     protected LineRenderer aimLine;
     protected AudioSource gunAudio;
     protected Light gunLight;
@@ -27,6 +30,7 @@ public class WeaponBehaviour : MonoBehaviour {
         
     }
 
+    //Draws a line from gun's end point to mouse cursor
     public void drawAimLine(Vector3 mousePosition)
     {
         setAimLine(true);
@@ -39,6 +43,7 @@ public class WeaponBehaviour : MonoBehaviour {
         aimLine.enabled = enabled;
     }
 
+    //Plays a flash on tip of gun for 0.5f this is for testing purposes
     IEnumerator weaponFlash()
     {
         gunLight.enabled = true;
