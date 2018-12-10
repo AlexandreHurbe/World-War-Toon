@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 114876030835177388}
   - component: {fileID: 114339430104611502}
   - component: {fileID: 114379378434256052}
+  - component: {fileID: 120024660881687734}
   m_Layer: 0
   m_Name: TestPlayerAmerican
   m_TagString: Untagged
@@ -219,7 +220,7 @@ GameObject:
   - component: {fileID: 33158827886815420}
   - component: {fileID: 23979249261466264}
   m_Layer: 0
-  m_Name: SM_Wep_American_Rifle_01
+  m_Name: m1_garand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1018,6 +1019,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1805239692715176
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4192604113329446}
+  m_Layer: 0
+  m_Name: GunBarrelEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1807304269437554
 GameObject:
   m_ObjectHideFlags: 1
@@ -1235,7 +1251,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1112748726129306}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.10378, y: 0.139, z: 7.64233}
+  m_LocalPosition: {x: -9.51, y: 0, z: 8.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4633711803147694}
@@ -1368,6 +1384,19 @@ Transform:
   m_Father: {fileID: 4108429005227764}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4192604113329446
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1805239692715176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.007, y: 0.054, z: 0.816}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4224854311134692}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4214073754205736
 Transform:
   m_ObjectHideFlags: 1
@@ -1418,8 +1447,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1179221692046102}
-  m_LocalRotation: {x: -0.47223276, y: 0.52630436, z: -0.5263043, w: 0.4722328}
-  m_LocalPosition: {x: 7.2, y: 6, z: -2}
+  m_LocalRotation: {x: -0.4340772, y: 0.5667376, z: -0.4525227, w: 0.53442365}
+  m_LocalPosition: {x: 7.1623507, y: 5.2125087, z: -0.87194014}
   m_LocalScale: {x: 100.000015, y: 100.000015, z: 100.000015}
   m_Children:
   - {fileID: 4979844514298730}
@@ -1429,9 +1458,10 @@ Transform:
   - {fileID: 4331878079000638}
   - {fileID: 4595976889992562}
   - {fileID: 4985796270174330}
+  - {fileID: 4192604113329446}
   m_Father: {fileID: 4214073754205736}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -186.199, y: -90, z: 89.99999}
+  m_LocalEulerAnglesHint: {x: -182.806, y: -88.897, z: 102.348}
 --- !u!4 &4238266825993202
 Transform:
   m_ObjectHideFlags: 1
@@ -2218,13 +2248,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1987636248569544}
-  m_LocalRotation: {x: 0.61217314, y: -0.08178457, z: 0.7690654, w: 0.16460185}
-  m_LocalPosition: {x: -0.121, y: 0.028, z: 0.286}
+  m_LocalRotation: {x: 0.5978835, y: -0.15554726, z: 0.78374696, w: 0.063883714}
+  m_LocalPosition: {x: -0.101, y: 0.019, z: 0.335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4224854311134692}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 19.106, y: 75.467, z: 170.679}
+  m_LocalEulerAnglesHint: {x: 18.676, y: 75.532005, z: 185.2}
 --- !u!4 &4991639844248704
 Transform:
   m_ObjectHideFlags: 1
@@ -3250,6 +3280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 1179221692046102}
   weaponLeftHandPos: {fileID: 4985796270174330}
+  spine: {fileID: 4871304590490790}
 --- !u!114 &114379378434256052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3283,6 +3314,98 @@ MonoBehaviour:
   crouchSpeed: 1
   crouchSprintSpeed: 3
   rotationSpeed: 100
+--- !u!120 &120024660881687734
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1112748726129306}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 2
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    generateLightingData: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
 --- !u!136 &136710256767179840
 CapsuleCollider:
   m_ObjectHideFlags: 1

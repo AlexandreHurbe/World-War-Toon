@@ -19,12 +19,19 @@ public class PlayerCamera : MonoBehaviour {
     public float smoothing = 15f;
 
 
+    //Private Components
+    //PlayerShooting component 
+    private PlayerShooting playerShooting;
+
+
     //  PRIVATE VARIABLES  \\
     //Initial offset of camera from player
     private Vector3 startOffset = new Vector3(0, 18, -6);
     private Vector3 offset = new Vector3(0, 18, -6);
-    //Mouse position
+    //Mouse position in screen space
     private Vector3 mousePosition;
+    //Mouse position in world space
+    private Vector3 mouseWorldPosition;
     //How much the camera is offsetted from player
     private Vector3 panOffset;
     //Distance of camera from Player
@@ -57,12 +64,13 @@ public class PlayerCamera : MonoBehaviour {
         mousePosition.x = Screen.width / 2;
         mousePosition.y = Screen.height / 2;
         mousePosition.z = 0;
+
+        playerCamera = Instantiate(instantiateCamera, this.transform.position + offset, Quaternion.Euler(cameraRotation));
+
+        playerShooting = GetComponent<PlayerShooting>();
     }
 
     private void Start() {
-        playerCamera = Instantiate(instantiateCamera, this.transform.position + offset, Quaternion.Euler(cameraRotation));
-        //this.transform.position = target.transform.position + offset;
-        
         floorMask = LayerMask.GetMask("Floor");
         isRotating = false;
         
@@ -93,7 +101,7 @@ public class PlayerCamera : MonoBehaviour {
         RaycastHit floorHit;
         if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
         {
-            Vector3 mouseWorldPosition = floorHit.point;
+            mouseWorldPosition = floorHit.point;
             mouseWorldPosition.y = this.transform.position.y;
 
             panOffset = mouseWorldPosition - this.transform.position;
@@ -171,13 +179,59 @@ public class PlayerCamera : MonoBehaviour {
         return playerCamera;
     }
 
-
+    public Vector3 getMouseWorldPosition()
+    {
+        return mouseWorldPosition;
+    }
 
     private void OnGUI() {
-        //This displays the mouse cursor on UI. Will be improved later but for testing purposes works fine
+        float height = 10f;
+        float width = 2f;
+        float spread = 10f;
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, Color.white);
+        texture.wrapMode = TextureWrapMode.Repeat;
+        texture.Apply();
+
         mousePosition.y = Mathf.Clamp(mousePosition.y, 0, Screen.height);
         mousePosition.x = Mathf.Clamp(mousePosition.x, 0, Screen.width);
-        GUI.Box(new Rect(mousePosition.x-5, Screen.height - (mousePosition.y+5), 10, 10), "");
+
+        if (!playerShooting.getIsAiming())
+        {
+            //This displays the mouse cursor on UI. Will be improved later but for testing purposes works fine
+            
+            GUI.Box(new Rect(mousePosition.x - 5, Screen.height - (mousePosition.y + 5), 10, 10), "");
+
+        }
+        else
+        {
+            //GUI.Box(new Rect(mousePosition.x, Screen.height - (mousePosition.y), 10, 10), "");
+
+            ////up rect
+            //GUI.DrawTexture(new Rect(mousePosition.x - width / 2, ((Screen.height - mousePosition.y) - (height*2)), width, height), texture);
+
+            ////down rect
+            //GUI.DrawTexture(new Rect(mousePosition.x - width / 2, ((Screen.height - mousePosition.y) + (height * 2)), width, height), texture);
+
+            ////left rect
+            //GUI.DrawTexture(new Rect((mousePosition.x - (height * 2)) , (Screen.height - mousePosition.y), height, width), texture);
+
+            ////right rect
+            //GUI.DrawTexture(new Rect((mousePosition.x + (height * 2)), (Screen.height - mousePosition.y), height, width), texture);
+
+            //up rect
+            GUI.DrawTexture(new Rect(mousePosition.x - width / 2, ((Screen.height - mousePosition.y) - height), width, height), texture);
+
+            //down rect
+            GUI.DrawTexture(new Rect(mousePosition.x - width / 2, (Screen.height - mousePosition.y), width, height), texture);
+
+            //left rect
+            GUI.DrawTexture(new Rect(mousePosition.x - height, (Screen.height - mousePosition.y), height, width), texture);
+
+            //right rect
+            GUI.DrawTexture(new Rect((mousePosition.x), (Screen.height - mousePosition.y), height, width), texture);
+        }
+
 
     }
 
