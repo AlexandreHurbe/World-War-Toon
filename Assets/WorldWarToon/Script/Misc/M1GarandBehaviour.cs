@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class M1GarandBehaviour : WeaponBehaviour {
 
+
+    //public M1GarandBehaviour(float fireRate, float weaponDamage, int magSize, int totalAmmo, float reloadTime, bool chamberedRound, int viewDist) : base(fireRate, weaponDamage, magSize, totalAmmo, reloadTime, chamberedRound, viewDist)
+    //{
+    //    Debug.Log("Constructor is called");
+    //}
+
     //// PROTECTED VARIABLES \\
     ////The rate in which the gun can fire, the higher the value the slower it is;
     //protected float fireRate;
@@ -20,29 +26,34 @@ public class M1GarandBehaviour : WeaponBehaviour {
     ////Guns with scopes will allow players to view further and shoot further.
     //protected int viewDist;
 
-    
+
 
     private void Awake()
+    {
+        
+    }
+
+    // Use this for initialization
+    new void Start()
     {
         aimLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
         gunLight = GetComponent<Light>();
-        fireRate = 0.3f;
-        weaponDamage = 60;
-        magSize = 5;
-        totalAmmo = 80;
-        reloadTime = 3.2f;
-        chamberedRound = false;
-        viewDist = 5f;
+        fireRate = WeaponStats.M1GarandStats.fireRate;
+        weaponDamage = WeaponStats.M1GarandStats.weaponDamage;
+        magSize = WeaponStats.M1GarandStats.magSize;
+        totalAmmo = WeaponStats.M1GarandStats.totalAmmo;
+        reloadTime = WeaponStats.M1GarandStats.reloadTime;
+        chamberedRound = WeaponStats.M1GarandStats.chamberedRound;
+        viewDist = WeaponStats.M1GarandStats.viewDist;
+        setCurrentAmmoInMag();
+        setCurrentTotalAmmo();
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

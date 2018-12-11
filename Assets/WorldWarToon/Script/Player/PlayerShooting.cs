@@ -38,6 +38,7 @@ public class PlayerShooting : MonoBehaviour {
         playerCamera = GetComponent<PlayerCamera>();
 
         weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
+        Debug.Log(weaponBehaviour.GetType());
         
         currentLayerWeight = 0;
     }

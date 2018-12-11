@@ -40,24 +40,23 @@ public class WeaponBehaviour : MonoBehaviour {
     //Checks if script is already reloading gun
     private bool isReloading;
 
-    //protected WeaponBehaviour(float fireRate, float weaponDamage, int magSize, int totalAmmo, float reloadTime, bool chamberedRound, int viewDist)
-    //{
-    //    this.fireRate = fireRate;
-    //    this.weaponDamage = weaponDamage;
-    //    this.magSize = magSize;
-    //    this.totalAmmo = totalAmmo;
-    //    this.reloadTime = reloadTime;
-    //    this.chamberedRound = chamberedRound;
-    //    this.viewDist = viewDist;
-    //}
-
     // Use this for initialization
-    void Start () {
-		
-	}
+    protected void Start () {
+        
+    }
 	
-	// Update is called once per frame
-	void Update () {
+    protected void setCurrentAmmoInMag()
+    {
+        currentAmmoInMag = magSize;
+    }
+
+    protected void setCurrentTotalAmmo()
+    {
+        currentTotalAmmo = totalAmmo;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -87,17 +86,21 @@ public class WeaponBehaviour : MonoBehaviour {
     {
         Debug.Log("Current Total Ammo: " + currentTotalAmmo);
         Debug.Log("Current Mag Ammo: " + currentAmmoInMag);
-        if (currentAmmoInMag <= 0 && currentAmmoInMag != magSize+1)
+        if (currentAmmoInMag != magSize+1)
         {
             if (currentTotalAmmo > 0 && !isReloading)
             {
                 Debug.Log("Reloading");
                 StartCoroutine(reloadTimer());
             }
+            else if (isReloading)
+            {
+                Debug.Log("Currently reloading");
+                //Out of ammo completely should mention in UI
+            }
             else
             {
-                Debug.Log("No ammo left");
-                //Out of ammo completely should mention in UI
+                Debug.Log("Out of ammo");
             }
             
         }
