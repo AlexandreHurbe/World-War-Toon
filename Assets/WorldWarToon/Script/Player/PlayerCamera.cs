@@ -22,6 +22,7 @@ public class PlayerCamera : MonoBehaviour {
     //PRIVATE COMPONENTS \\ 
     //PlayerShooting component 
     private PlayerShooting playerShooting;
+    private WeaponBehaviour weaponBehaviour;
 
 
     //  PRIVATE VARIABLES  \\
@@ -63,6 +64,8 @@ public class PlayerCamera : MonoBehaviour {
 
         //Gets shooting component
         playerShooting = GetComponent<PlayerShooting>();
+
+        weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
 
         //Sets our custom mouse to middle of the screen
         mousePosition.x = Screen.width / 2;
@@ -124,23 +127,16 @@ public class PlayerCamera : MonoBehaviour {
 
         }
 
-        //Sets the rotation point for rotation
-        if (Input.GetMouseButtonDown(2))
-        {
-            rotationPoint = this.transform.position; 
-        }
-
+        
         //This is the rotation around the player
-        if (Input.GetMouseButton(2) /*&& mouseX != 0*/)
+        if (Input.GetMouseButton(PlayerInputCustomiser.RotateCamera) && mouseX != 0)
         {
             isRotating = true;
             rotateCamera(mouseX);
-            //transform.RotateAround(rotationPoint, rotationMask, rotationSpeed * mouseX * Time.deltaTime);
-            //offset = this.transform.position - target.transform.position;
         }
 
         //When the player releases middle mouse click
-        if (Input.GetMouseButtonUp(2))
+        if (Input.GetMouseButtonUp(PlayerInputCustomiser.RotateCamera))
         {
             isRotating = false;
         }
@@ -152,7 +148,7 @@ public class PlayerCamera : MonoBehaviour {
             mousePosition.y += mouseY * mouseSensitivity;
         }
 
-        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset / 10), smoothing * Time.deltaTime);
+        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset / weaponBehaviour.getViewDist()), smoothing * Time.deltaTime);
         
 
     }
@@ -179,6 +175,8 @@ public class PlayerCamera : MonoBehaviour {
     {
         return mouseWorldPosition;
     }
+
+
 
     private void OnGUI() {
         float height = 10f;

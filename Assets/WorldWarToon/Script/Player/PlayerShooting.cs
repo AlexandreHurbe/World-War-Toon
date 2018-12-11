@@ -52,8 +52,13 @@ public class PlayerShooting : MonoBehaviour {
         //Checks if the player is currently sprinting which is determined in player movement
         isSprinting = playerMovement.getIsSprinting();
 
+        if (Input.GetKeyDown(PlayerInputCustomiser.Reload))
+        {
+            weaponBehaviour.Reload();
+        }
+
         //Checks if the player is holding the right mouse button and they are not currently sprinting
-        if (Input.GetMouseButton(1) && !isSprinting)
+        if (Input.GetMouseButton(PlayerInputCustomiser.Aim) && !isSprinting)
         {
             
             isAiming = true;
@@ -78,7 +83,7 @@ public class PlayerShooting : MonoBehaviour {
             //Want to rotate gun end to face mouse
             //RotateTowards();
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(PlayerInputCustomiser.Shoot))
             {
                 weaponBehaviour.fireWeapon();
             }
@@ -133,7 +138,7 @@ public class PlayerShooting : MonoBehaviour {
         }
         else
         {
-
+            anim.SetLookAtPosition(playerCamera.getMouseWorldPosition());
             currentLayerWeight = Mathf.Lerp(currentLayerWeight, 0, Time.deltaTime * 5f);
             //anim.SetLayerWeight(1, currentLayerWeight);
         }

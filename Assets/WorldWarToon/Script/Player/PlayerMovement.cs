@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour {
     private bool canCrouch;
     private bool isCrouching;
 
+    private float h;
+    private float v;
+
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
         playerCamera = GetComponent<PlayerCamera>();
@@ -45,15 +48,15 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
 
         camForward = playerCamera.getPlayerCamera().transform.forward;
         camRight = playerCamera.getPlayerCamera().transform.right;
 
         isAiming = playerShooting.getIsAiming();
 
-        if (Input.GetKey(KeyCode.LeftShift) && (h != 0 || v != 0)) {
+        if (Input.GetKey(PlayerInputCustomiser.Sprint) && (h != 0 || v != 0)) {
             isSprinting = true;
         }
         else
@@ -61,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
             isSprinting = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && canCrouch)
+        if (Input.GetKeyDown(PlayerInputCustomiser.Crouch) && canCrouch)
         {
             //This is one because the input can be detected several times in one frame thus cancelling the crouch.
             StartCoroutine(canCrouchRoutine());
@@ -78,6 +81,11 @@ public class PlayerMovement : MonoBehaviour {
 
 
         Move(h, v);
+        
+    }
+
+    private void LateUpdate()
+    {
         Animate(h, v);
     }
 
@@ -196,29 +204,45 @@ public class PlayerMovement : MonoBehaviour {
         //Checks if the user is sprinting while crouched
         if (isCrouching)
         {
-            //if sprinting while crouched
-            if (isSprinting)
+            if (isAiming)
             {
-                
-                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * crouchSprintSpeed * Time.deltaTime;
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * (crouchSpeed * 0.6f) * Time.deltaTime;
             }
             else
             {
-                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * crouchSpeed * Time.deltaTime;
+                //if sprinting while crouched
+                if (isSprinting)
+                {
+
+                    movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * crouchSprintSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * crouchSpeed * Time.deltaTime;
+                }
             }
+
         }
         else
         {
-            //if sprinting while standing   
-            if (isSprinting)
+            if (isAiming)
             {
-                
-                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime;
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * (speed*0.6f) * Time.deltaTime;
             }
             else
             {
-                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * speed * Time.deltaTime;
+                //if sprinting while standing   
+                if (isSprinting)
+                {
+
+                    movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * sprintSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * speed * Time.deltaTime;
+                }
             }
+            
         }
         
 
