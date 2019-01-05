@@ -9,7 +9,10 @@ public class WeaponBehaviour : MonoBehaviour {
     // PROTECTED COMPONENTS \\
     protected LineRenderer aimLine;
     protected AudioSource gunAudio;
+    protected Transform gunEnd;
     protected Light gunLight;
+    protected GameObject bullet;
+
 
     // PROTECTED VARIABLES \\
     //The rate in which the gun can fire, the higher the value the slower it is;
@@ -26,11 +29,11 @@ public class WeaponBehaviour : MonoBehaviour {
     protected bool chamberedRound;
     //Guns with scopes will allow players to view further and shoot further.
     protected float viewDist;
-    
+
 
     // PRIVATE VARIABLES \\
     //Checks whether or not the player can fire again
-    private bool canFire;
+    private bool canFire = true;
     //The amount of ammo in the mag currently
     private int currentAmmoInMag;
     //THe total ammount of ammo the user is carrying right now
@@ -41,10 +44,10 @@ public class WeaponBehaviour : MonoBehaviour {
     private bool isReloading;
 
     // Use this for initialization
-    protected void Start () {
-        
+    protected void Start() {
+
     }
-	
+
     protected void setCurrentAmmoInMag()
     {
         currentAmmoInMag = magSize;
@@ -56,37 +59,47 @@ public class WeaponBehaviour : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update() {
+
+    }
 
     public void fireWeapon()
     {
+        //Debug.Log(canFire);
+        //Debug.Log(currentAmmoInMag);
         if (canFire && currentAmmoInMag > 0)
         {
             StartCoroutine(fireRateCooldown());
-            
+
             currentAmmoInMag--;
-            Debug.Log("Shot fired");
-            Debug.Log(currentAmmoInMag);
+            //Debug.Log("Shot fired");
+            //Debug.Log(currentAmmoInMag);
             gunAudio.Stop();
             gunAudio.Play();
-            StartCoroutine(weaponFlash());
+            //StartCoroutine(weaponFlash());
+            GameObject newBullet = Instantiate(bullet, gunEnd.position, gunEnd.rotation);
+            //Debug.Log(newBullet);
+            BulletBehaviour bulletProperties = bullet.GetComponent<BulletBehaviour>();
+            bulletProperties.setDmg((int)weaponDamage);
+            bulletProperties.setPlayerFriendly(true);
+            //bulletProperties.setSparkEffect(currentWeapon.sparkEffect);
         }
         else if (currentAmmoInMag <= 0)
         {
             Reload();
             return;
         }
-        
-        
+
+
     }
+
+
 
     public void Reload()
     {
         Debug.Log("Current Total Ammo: " + currentTotalAmmo);
         Debug.Log("Current Mag Ammo: " + currentAmmoInMag);
-        if (currentAmmoInMag != magSize+1)
+        if (currentAmmoInMag != magSize + 1)
         {
             if (currentTotalAmmo > 0 && !isReloading)
             {
@@ -102,7 +115,7 @@ public class WeaponBehaviour : MonoBehaviour {
             {
                 Debug.Log("Out of ammo");
             }
-            
+
         }
         else
         {
@@ -110,15 +123,20 @@ public class WeaponBehaviour : MonoBehaviour {
         }
     }
 
+    public void steadyAim(Vector3 mousePosition)
+    {
+
+    }
 
 
     //Draws a line from gun's end point to mouse cursor
     public void drawAimLine(Vector3 mousePosition)
     {
         //setAimLine(true);
-        Debug.DrawRay(this.transform.position, this.transform.forward * 100f, Color.red);
-        aimLine.SetPosition(0, this.transform.position);
-        aimLine.SetPosition(1, mousePosition);
+        Debug.DrawRay(this.transform.position, gunEnd.forward * 100f, Color.red);
+        aimLine.SetPosition(0, gunEnd.position);
+        aimLine.SetPosition(1, gunEnd.position + (gunEnd.forward * 100f));
+        //aimLine.SetColors(Color.red, Color.red);
     }
 
     public void setAimLine(bool enabled)
@@ -164,7 +182,7 @@ public class WeaponBehaviour : MonoBehaviour {
 
         //Checks if there is enough ammo to fill the gun up
         if (currentTotalAmmo >= magSize)
-        {   
+        {
             //Fills gun back to its original size
             currentAmmoInMag = magSize;
             //Reduces the total ammount of ammo;
@@ -184,6 +202,15 @@ public class WeaponBehaviour : MonoBehaviour {
             currentAmmoInMag++;
         }
 
+    }
+
+    public void alignGunEnd(Vector3 mousePosition)
+    {
+        //float hypDist = Vector3.Distance(gunEnd.position, mousePosition);
+        //float yDist = mousePosition.y - gunEnd.position.y;
+        Debug.Log(mousePosition);
+        float angle = Mathf.Acos(Vector3.Dot(mousePosition, gunEnd.position) / (mousePosition.magnitude * gunEnd.position.magnitude));
+        gunEnd.eulerAngles = new Vector3 (gunEnd.eulerAngles.x, angle, gunEnd.eulerAngles.z);
     }
 
     public float getViewDist()

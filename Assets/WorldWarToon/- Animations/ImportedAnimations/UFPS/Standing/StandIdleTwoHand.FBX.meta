@@ -775,77 +775,77 @@ ModelImporter:
     - name: LArmIndex1
       parentName: LArmHand
       position: {x: -0.091602474, y: -0.0021468352, z: -0.0366407}
-      rotation: {x: 0.12689291, y: -0.08215254, z: -0.0062543117, w: 0.9884888}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
     - name: LArmIndex2
       parentName: LArmIndex1
       position: {x: -0.051881827, y: 0, z: 0}
-      rotation: {x: -0.00000013411041, y: -0.0000006034968, z: -0.036909536, w: 0.9993186}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1.0000001, z: 1}
     - name: LArmIndex3
       parentName: LArmIndex2
       position: {x: -0.024820289, y: 0.000000076293944, z: 0.000000019073486}
-      rotation: {x: 0.00000019669358, y: -0.0000016864443, z: -0.15763275, w: 0.9874978}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1.0000001}
     - name: LArmMid1
       parentName: LArmHand
       position: {x: -0.0970145, y: -0.008409653, z: -0.0058332444}
-      rotation: {x: 0.13452093, y: -0.03698913, z: -0.01995879, w: 0.990019}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
     - name: LArmMid2
       parentName: LArmMid1
       position: {x: -0.060842264, y: 0, z: 0.000000009536743}
-      rotation: {x: -0.00000029802305, y: 0.0000024214373, z: -0.019661501, w: 0.9998067}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
     - name: LArmMid3
       parentName: LArmMid2
       position: {x: -0.027479628, y: 0.000000038146972, z: -0.0000000047683715}
-      rotation: {x: -0.00000011690693, y: 0.00000031327318, z: -0.41480887, w: 0.9099086}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 0.99999994, z: 1}
     - name: LArmPinky1
       parentName: LArmHand
       position: {x: -0.090511054, y: -0.0026821136, z: 0.045439813}
-      rotation: {x: 0.098849654, y: -0.033543143, z: -0.016039837, w: 0.99440753}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.99999994, y: 0.9999998, z: 0.9999999}
     - name: LArmPinky2
       parentName: LArmPinky1
       position: {x: -0.034455795, y: 0, z: 0}
-      rotation: {x: 0.0000005736946, y: -0.0000026337796, z: -0.02430266, w: 0.99970466}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
     - name: LArmPinky3
       parentName: LArmPinky2
       position: {x: -0.018170394, y: 0, z: -0.000000019073486}
-      rotation: {x: -0.00000010327127, y: 0.000001797879, z: -0.33218527, w: 0.9432142}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.9999998, y: 0.99999976, z: 0.9999999}
     - name: LArmRing1
       parentName: LArmHand
       position: {x: -0.0997536, y: -0.007782364, z: 0.021833133}
-      rotation: {x: 0.10954886, y: -0.03939146, z: -0.016060269, w: 0.99307066}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 0.9999998, y: 0.99999994, z: 0.9999999}
     - name: LArmRing2
       parentName: LArmRing1
       position: {x: -0.048661, y: 0, z: 0.0000000047683715}
-      rotation: {x: 0.00000017136323, y: -0.00000071152994, z: -0.021430505, w: 0.99977034}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1.0000001, z: 1.0000001}
     - name: LArmRing3
       parentName: LArmRing2
       position: {x: -0.027177887, y: -0.000000038146972, z: -0.0000000047683715}
-      rotation: {x: -0.000000041897856, y: -0.0000008004945, z: -0.4169633, w: 0.9089233}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: LArmThumb1
       parentName: LArmHand
-      position: {x: -0.009992866, y: 0.014167937, z: -0.03252058}
-      rotation: {x: -0.63534516, y: -0.26287848, z: -0.2625262, w: 0.6769871}
+      position: {x: -0.00999767, y: 0.014168022, z: -0.032521263}
+      rotation: {x: -0, y: -0.4234824, z: -0, w: 0.90590435}
       scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
     - name: LArmThumb2
       parentName: LArmThumb1
       position: {x: -0.03833393, y: 0, z: -0.000000076293944}
-      rotation: {x: 0.04606499, y: 0.015062418, z: 0.034621365, w: 0.99822474}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: LArmThumb3
       parentName: LArmThumb2
       position: {x: -0.04323391, y: -0.000000019073486, z: 0.000000076293944}
-      rotation: {x: 0.10815583, y: -0.03407468, z: -0.09782066, w: 0.9887226}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 0.99999994, z: 1}
     - name: Neck1
       parentName: Spine3

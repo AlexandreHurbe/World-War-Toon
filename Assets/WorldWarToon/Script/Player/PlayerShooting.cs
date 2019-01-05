@@ -9,6 +9,7 @@ public class PlayerShooting : MonoBehaviour {
     public GameObject weapon;
     //The left hand position of the player on the gun
     public Transform weaponLeftHandPos;
+    public Transform weaponRightHandPos;
     //The spine located on the player's character
     public Transform spine;
 
@@ -38,7 +39,7 @@ public class PlayerShooting : MonoBehaviour {
         playerCamera = GetComponent<PlayerCamera>();
 
         weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
-        Debug.Log(weaponBehaviour.GetType());
+        //Debug.Log(weaponBehaviour.GetType());
         
         currentLayerWeight = 0;
     }
@@ -70,7 +71,7 @@ public class PlayerShooting : MonoBehaviour {
             isAiming = false;
         }
 
-        
+        isAiming = true;
         Aiming();
         Animate();
 	}
@@ -79,13 +80,17 @@ public class PlayerShooting : MonoBehaviour {
     {
         if (isAiming)
         {
-            
+            AlignWeapon(playerCamera.getMouseWorldPosition());
+
+            weaponBehaviour.fireWeapon();
+
             weaponBehaviour.drawAimLine(playerCamera.getMouseWorldPosition());
             //Want to rotate gun end to face mouse
             //RotateTowards();
 
             if (Input.GetMouseButtonDown(PlayerInputCustomiser.Shoot))
             {
+                //Debug.Log("Left mouse click registered");
                 weaponBehaviour.fireWeapon();
             }
             
@@ -96,6 +101,19 @@ public class PlayerShooting : MonoBehaviour {
             weaponBehaviour.setAimLine(false);
             return;
         }
+    }
+
+    private void AlignWeapon(Vector3 mouseWorldPosition)
+    {
+        //Calculate the linear line between right hand position and mouse position in world space 3d space;
+        //weaponRightHandPos.transform;
+        //First step find gradient
+        float gradient = (mouseWorldPosition.z - weaponRightHandPos.position.z) / (mouseWorldPosition.x - weaponRightHandPos.position.x);
+        float c = mouseWorldPosition.z - (gradient * mouseWorldPosition.x);
+
+        weaponBehaviour.alignGunEnd(mouseWorldPosition);
+
+
     }
 
     private void RotateTowards()
@@ -125,9 +143,13 @@ public class PlayerShooting : MonoBehaviour {
 
         anim.SetIKPosition(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.position);
         anim.SetIKRotation(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.rotation);
-        
-        anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-        anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+        anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 2);
+        anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 2);
+
+        anim.SetIKPosition(AvatarIKGoal.RightHand, weaponRightHandPos.transform.position);
+        anim.SetIKRotation(AvatarIKGoal.RightHand, weaponRightHandPos.transform.rotation);
+        anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+        anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
 
 
         if (isAiming)

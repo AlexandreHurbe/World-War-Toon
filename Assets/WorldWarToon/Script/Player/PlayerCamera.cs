@@ -80,7 +80,7 @@ public class PlayerCamera : MonoBehaviour {
 
     private void Start() {
         //Gets the floor layer so all raycast are to this floor 
-        floorMask = LayerMask.GetMask("Floor");
+        floorMask = LayerMask.GetMask("CanRayCast");
         isRotating = false;
         
     }
@@ -111,7 +111,12 @@ public class PlayerCamera : MonoBehaviour {
         if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
         {
             mouseWorldPosition = floorHit.point;
-            mouseWorldPosition.y = this.transform.position.y;
+
+            if (!floorHit.collider.tag.Equals("Shootable"))
+            {
+                mouseWorldPosition.y = this.transform.position.y;
+            }
+
 
             panOffset = mouseWorldPosition - this.transform.position;
 
