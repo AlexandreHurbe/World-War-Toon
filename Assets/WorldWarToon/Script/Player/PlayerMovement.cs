@@ -97,7 +97,9 @@ public class PlayerMovement : MonoBehaviour {
         if (isAiming)
         {
             //Animation stuff you can ignore
+
             Vector3 movementSelf = (this.transform.right.normalized * h) + (this.transform.forward.normalized * v);
+            //Debug.Log(new Vector3(h, 0, v));
             anim.SetFloat("Horizontal", movementSelf.x);
             anim.SetFloat("Vertical", movementSelf.z);
         }

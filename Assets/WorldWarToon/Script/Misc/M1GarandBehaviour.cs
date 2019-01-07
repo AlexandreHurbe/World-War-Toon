@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class M1GarandBehaviour : WeaponBehaviour {
 
-    public GameObject M1GarandBullet;
+    [SerializeField]
+    private GameObject M1GarandBullet;
 
     [SerializeField]
-    private Transform GunEnd;
+    private GameObject GunEnd;
+
+    [SerializeField]
+    private ParticleSystem M1GarandShellCasing;
+    [SerializeField]
+    private ParticleSystem M1GarandGunSmoke;
 
     private void Awake()
     {
@@ -20,6 +26,8 @@ public class M1GarandBehaviour : WeaponBehaviour {
         aimLine = GetComponentInChildren<LineRenderer>();
         gunAudio = GetComponentInChildren<AudioSource>();
         gunLight = GetComponentInChildren<Light>();
+        shellCasing = M1GarandShellCasing;
+        gunSmoke = M1GarandGunSmoke;
         gunEnd = GunEnd;
         bullet = M1GarandBullet;
         fireRate = WeaponStats.M1GarandStats.fireRate;

@@ -5,8 +5,8 @@ using UnityEngine;
 public class BulletBehaviour : MonoBehaviour {
 
     private int dmg = 10;
-    private float bulletDetectInFrontRange = 0.3f;
-    private float speed = 15f;
+    private float bulletDetectInFrontRange = 1f;
+    private float speed = 45f;
     private bool isPlayerFriendly;
     private float destroyTime = 2f;
 

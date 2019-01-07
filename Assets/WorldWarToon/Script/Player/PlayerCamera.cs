@@ -107,14 +107,22 @@ public class PlayerCamera : MonoBehaviour {
 
         //This allows the panning of camera but within fixed limits
         Ray camRay = playerCamera.ScreenPointToRay(mousePosition);
-        RaycastHit floorHit;
-        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
+        RaycastHit rayHit;
+        if (Physics.Raycast(camRay, out rayHit, camRayLength, floorMask))
         {
-            mouseWorldPosition = floorHit.point;
+            mouseWorldPosition = rayHit.point;
+            //mouseWorldPosition.y = 1;
 
-            if (!floorHit.collider.tag.Equals("Shootable"))
+            //This needs to worked on so that players can aim at players on the ground or perhaps 
+            //Debug.Log(rayHit.collider.GetComponent<MeshRenderer>().bounds.size.y);
+            if (!rayHit.collider.tag.Equals("Shootable"))
             {
-                mouseWorldPosition.y = this.transform.position.y;
+                mouseWorldPosition.y = 1f;
+                
+            }
+            else
+            {
+                mouseWorldPosition.y = rayHit.collider.GetComponent<MeshRenderer>().bounds.size.y;
             }
 
 

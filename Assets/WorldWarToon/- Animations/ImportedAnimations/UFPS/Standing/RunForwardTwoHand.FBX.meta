@@ -149,8 +149,8 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
       in configuration does not match rotation in animation file:\n\t'RArmForearm2'
-      : rotation error = 4.985354 deg\n\t'LArmUpper2' : rotation error = 2.361093
-      deg\n\t'LArmForearm2' : rotation error = 5.543336 deg\n"
+      : rotation error = 4.985359 deg\n\t'LArmUpper2' : rotation error = 2.361090
+      deg\n\t'LArmForearm2' : rotation error = 5.543331 deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
@@ -177,7 +177,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 20
       wrapMode: 0
-      orientationOffsetY: -9
+      orientationOffsetY: 15
       level: 0
       cycleOffset: 0
       loop: 0
@@ -187,7 +187,7 @@ ModelImporter:
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
@@ -205,6 +205,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -229,6 +230,9 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -683,7 +687,7 @@ ModelImporter:
     - name: Pelvis
       parentName: RunForwardTwoHand(Clone)
       position: {x: 0.00535889, y: 0.94598264, z: 0.014785128}
-      rotation: {x: 0.51322675, y: -0.4864138, z: -0.4864138, w: 0.51322675}
+      rotation: {x: 0.4963367, y: -0.4747706, z: -0.49778566, w: 0.52957743}
       scale: {x: 1, y: 1, z: 1}
     - name: LLegUpper
       parentName: Pelvis
@@ -728,17 +732,17 @@ ModelImporter:
     - name: Spine1
       parentName: Pelvis
       position: {x: 0, y: 0, z: 0}
-      rotation: {x: -0.07357633, y: -0, z: -0, w: 0.99728966}
+      rotation: {x: -0.018504888, y: -0.0018359721, z: 0.098713815, w: 0.9949421}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine2
       parentName: Spine1
-      position: {x: -0.20237976, y: 0, z: 0}
-      rotation: {x: -7.1054274e-15, y: -2.3700041e-14, z: 1.4210855e-14, w: 1}
+      position: {x: -0.20237999, y: -0.0000017520506, z: -0.0000013856916}
+      rotation: {x: -0.0019739175, y: 0.000032641805, z: -0.016522368, w: 0.9998616}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine3
       parentName: Spine2
-      position: {x: -0.20237976, y: 0.0000000011920929, z: 0}
-      rotation: {x: 0, y: -2.3700045e-14, z: -0, w: 1}
+      position: {x: -0.20239352, y: -0.000008527832, z: -0.0000066340835}
+      rotation: {x: 0.015745427, y: 0.001976016, z: 0.12450504, w: 0.99209213}
       scale: {x: 1, y: 1, z: 1}
     - name: LArmCollarbone
       parentName: Spine3
@@ -847,8 +851,8 @@ ModelImporter:
       scale: {x: 1, y: 0.99999994, z: 1}
     - name: Neck1
       parentName: Spine3
-      position: {x: -0.25793365, y: 0.00000014305114, z: 0.0000000035762786}
-      rotation: {x: 0.027152913, y: -0.000000059570873, z: 0.0000000020535014, w: 0.9996313}
+      position: {x: -0.2579354, y: -0.0000011860393, z: -0.00000127987}
+      rotation: {x: -0.09634621, y: -0.0000000945292, z: 0.00000004582396, w: 0.9953479}
       scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
     - name: NeckHead
       parentName: Neck1

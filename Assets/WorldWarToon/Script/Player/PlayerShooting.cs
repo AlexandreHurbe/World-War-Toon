@@ -28,6 +28,8 @@ public class PlayerShooting : MonoBehaviour {
     private bool isAiming;
     //Whether or not the player is sprinting
     private bool isSprinting;
+    //Whether or not player is reloading
+    private bool isReloading;
     //Animation stuff you can ignore
     private float currentLayerWeight;
 
@@ -40,31 +42,32 @@ public class PlayerShooting : MonoBehaviour {
 
         weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
         //Debug.Log(weaponBehaviour.GetType());
-        
+
         currentLayerWeight = 0;
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start() {
+
+    }
+
+    // Update is called once per frame
+    void Update() {
         //Checks if the player is currently sprinting which is determined in player movement
         isSprinting = playerMovement.getIsSprinting();
+        isReloading = weaponBehaviour.getReloadState();
 
         if (Input.GetKeyDown(PlayerInputCustomiser.Reload))
         {
-            weaponBehaviour.Reload();
+            Reload();
         }
 
         //Checks if the player is holding the right mouse button and they are not currently sprinting
         if (Input.GetMouseButton(PlayerInputCustomiser.Aim) && !isSprinting)
         {
-            
+
             isAiming = true;
-            
+
         }
         else
         {
@@ -74,7 +77,7 @@ public class PlayerShooting : MonoBehaviour {
         isAiming = true;
         Aiming();
         Animate();
-	}
+    }
 
     private void Aiming()
     {
@@ -82,18 +85,18 @@ public class PlayerShooting : MonoBehaviour {
         {
             AlignWeapon(playerCamera.getMouseWorldPosition());
 
-            weaponBehaviour.fireWeapon();
+            //weaponBehaviour.fireWeapon();
 
             weaponBehaviour.drawAimLine(playerCamera.getMouseWorldPosition());
-            //Want to rotate gun end to face mouse
-            //RotateTowards();
+            // Rotates player to face mouse when aiming
+            RotateTowards();
 
             if (Input.GetMouseButtonDown(PlayerInputCustomiser.Shoot))
             {
                 //Debug.Log("Left mouse click registered");
                 weaponBehaviour.fireWeapon();
             }
-            
+
 
         }
         else
@@ -103,67 +106,61 @@ public class PlayerShooting : MonoBehaviour {
         }
     }
 
+    private void Reload()
+    {
+        Debug.Log("Player has press reload");
+        weaponBehaviour.Reload();
+        //play reload animation
+    }
+
     private void AlignWeapon(Vector3 mouseWorldPosition)
     {
-        //Calculate the linear line between right hand position and mouse position in world space 3d space;
-        //weaponRightHandPos.transform;
-        //First step find gradient
-        float gradient = (mouseWorldPosition.z - weaponRightHandPos.position.z) / (mouseWorldPosition.x - weaponRightHandPos.position.x);
-        float c = mouseWorldPosition.z - (gradient * mouseWorldPosition.x);
-
         weaponBehaviour.alignGunEnd(mouseWorldPosition);
-
 
     }
 
     private void RotateTowards()
     {
-        
-        //Rotates player towards mouse cursor when aiming
-        Vector3 direction = (playerCamera.getMouseWorldPosition() - this.transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 20f);
 
-        //This is still being tested for more accurate aiming 
-        //// Set our Look Weights
-        //anim.SetLookAtWeight(1, 1, 1, 1, 1);
-        //// Set the Look At Position which is a point along the camera direction     
-        //anim.SetLookAtPosition(direction);
+        //Rotates player towards mouse cursor when aiming
+        Vector3 modifiedMousePosition = playerCamera.getMouseWorldPosition();
+        modifiedMousePosition.y = 1;
+        Vector3 direction = (modifiedMousePosition - this.transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        lookRotation.x = 0;
+        lookRotation.z = 0;
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 20f);
     }
 
     private void Animate()
     {
         anim.SetBool("isAiming", isAiming);
+        //Debug.Log(weaponBehaviour.getReloadState());
+        anim.SetBool("isReloading", isReloading);
     }
 
     //This is all animation stuff, you can ignore it you're not directly working with it.
     private void OnAnimatorIK()
     {
-
-
-        anim.SetIKPosition(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.position);
-        anim.SetIKRotation(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.rotation);
-        anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 2);
-        anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 2);
-
-        anim.SetIKPosition(AvatarIKGoal.RightHand, weaponRightHandPos.transform.position);
-        anim.SetIKRotation(AvatarIKGoal.RightHand, weaponRightHandPos.transform.rotation);
-        anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-        anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
-
-
-        if (isAiming)
+        if (!isReloading)
         {
-            RotateTowards();
-            //anim.SetLayerWeight(1, 1);
+            anim.SetIKPosition(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.position);
+            anim.SetIKRotation(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.rotation);
+            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+        }
+
+        //Sets the upperbody mask layer value to 1 to show animation
+        if (isAiming || isReloading)
+        {
             currentLayerWeight = 1;
-            
+            anim.SetLayerWeight(1, currentLayerWeight);
         }
         else
         {
             anim.SetLookAtPosition(playerCamera.getMouseWorldPosition());
             currentLayerWeight = Mathf.Lerp(currentLayerWeight, 0, Time.deltaTime * 5f);
-            //anim.SetLayerWeight(1, currentLayerWeight);
+            anim.SetLayerWeight(1, currentLayerWeight);
         }
     }
 

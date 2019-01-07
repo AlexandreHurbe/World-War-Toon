@@ -9,9 +9,11 @@ public class WeaponBehaviour : MonoBehaviour {
     // PROTECTED COMPONENTS \\
     protected LineRenderer aimLine;
     protected AudioSource gunAudio;
-    protected Transform gunEnd;
+    protected GameObject gunEnd;
     protected Light gunLight;
     protected GameObject bullet;
+    protected ParticleSystem shellCasing;
+    protected ParticleSystem gunSmoke;
 
 
     // PROTECTED VARIABLES \\
@@ -69,6 +71,7 @@ public class WeaponBehaviour : MonoBehaviour {
         //Debug.Log(currentAmmoInMag);
         if (canFire && currentAmmoInMag > 0)
         {
+            shellCasing.Stop();
             StartCoroutine(fireRateCooldown());
 
             currentAmmoInMag--;
@@ -76,8 +79,10 @@ public class WeaponBehaviour : MonoBehaviour {
             //Debug.Log(currentAmmoInMag);
             gunAudio.Stop();
             gunAudio.Play();
-            //StartCoroutine(weaponFlash());
-            GameObject newBullet = Instantiate(bullet, gunEnd.position, gunEnd.rotation);
+            shellCasing.Play();
+            gunSmoke.Play();
+            StartCoroutine(weaponFlash());
+            GameObject newBullet = Instantiate(bullet, gunEnd.transform.position, gunEnd.transform.rotation);
             //Debug.Log(newBullet);
             BulletBehaviour bulletProperties = bullet.GetComponent<BulletBehaviour>();
             bulletProperties.setDmg((int)weaponDamage);
@@ -97,45 +102,79 @@ public class WeaponBehaviour : MonoBehaviour {
 
     public void Reload()
     {
-        Debug.Log("Current Total Ammo: " + currentTotalAmmo);
-        Debug.Log("Current Mag Ammo: " + currentAmmoInMag);
-        if (currentAmmoInMag != magSize + 1)
+        //Debug.Log("Current Total Ammo: " + currentTotalAmmo);
+        //Debug.Log("Current Mag Ammo: " + currentAmmoInMag);
+        
+        if (chamberedRound)
         {
-            if (currentTotalAmmo > 0 && !isReloading)
+            //Checks if the magazine is full
+            if (currentAmmoInMag != magSize + 1)
             {
-                Debug.Log("Reloading");
-                StartCoroutine(reloadTimer());
-            }
-            else if (isReloading)
-            {
-                Debug.Log("Currently reloading");
-                //Out of ammo completely should mention in UI
+                if (currentTotalAmmo > 0 && !isReloading)
+                {
+                    Debug.Log("Reloading");
+                    StartCoroutine(reloadTimer());
+                }
+                else if (isReloading)
+                {
+                    Debug.Log("Currently reloading");
+                    
+                }
+                else
+                {
+                    //Out of ammo completely should mention in UI
+                    Debug.Log("Out of ammo");
+                }
+
             }
             else
             {
-                Debug.Log("Out of ammo");
+                return;
             }
-
         }
         else
         {
-            return;
+            //Checks if the magazine is full
+            if (currentAmmoInMag != magSize)
+            {
+                if (currentTotalAmmo > 0 && !isReloading)
+                {
+                    Debug.Log("Reloading");
+                    StartCoroutine(reloadTimer());
+                }
+                else if (isReloading)
+                {
+                    Debug.Log("Currently reloading");
+                    
+                }
+                else
+                {
+                    //Out of ammo completely should mention in UI
+                    Debug.Log("Out of ammo");
+                }
+
+            }
+            else
+            {
+                return;
+            }
         }
+
+        
     }
 
-    public void steadyAim(Vector3 mousePosition)
+    public bool getReloadState()
     {
-
+        return isReloading;
     }
-
 
     //Draws a line from gun's end point to mouse cursor
     public void drawAimLine(Vector3 mousePosition)
     {
         //setAimLine(true);
-        Debug.DrawRay(this.transform.position, gunEnd.forward * 100f, Color.red);
-        aimLine.SetPosition(0, gunEnd.position);
-        aimLine.SetPosition(1, gunEnd.position + (gunEnd.forward * 100f));
+        Debug.DrawRay(this.transform.position, gunEnd.transform.forward * 100f, Color.red);
+        aimLine.SetPosition(0, gunEnd.transform.position);
+        aimLine.SetPosition(1, gunEnd.transform.position + (gunEnd.transform.forward * 100f));
         //aimLine.SetColors(Color.red, Color.red);
     }
 
@@ -177,8 +216,18 @@ public class WeaponBehaviour : MonoBehaviour {
             emptyReload = true;
         }
 
-        //Tops up total ammo stack with the bullets currently in the mag
-        currentTotalAmmo += currentAmmoInMag;
+
+        if (emptyReload)
+        {
+            //Tops up total ammo stack with the bullets currently in the mag
+            currentTotalAmmo += currentAmmoInMag;
+        }
+        else
+        {
+            //Tops up total ammo stack with the bullets currently in the mag minus the one bullet that is stuck inside the chamber
+            currentTotalAmmo += (currentAmmoInMag - 1);
+        }
+        
 
         //Checks if there is enough ammo to fill the gun up
         if (currentTotalAmmo >= magSize)
@@ -197,6 +246,7 @@ public class WeaponBehaviour : MonoBehaviour {
             currentTotalAmmo = 0;
         }
 
+        //Basically adds the chambered round into the magazine as it is not taken out when reloading.
         if (!emptyReload)
         {
             currentAmmoInMag++;
@@ -206,11 +256,11 @@ public class WeaponBehaviour : MonoBehaviour {
 
     public void alignGunEnd(Vector3 mousePosition)
     {
-        //float hypDist = Vector3.Distance(gunEnd.position, mousePosition);
-        //float yDist = mousePosition.y - gunEnd.position.y;
-        Debug.Log(mousePosition);
-        float angle = Mathf.Acos(Vector3.Dot(mousePosition, gunEnd.position) / (mousePosition.magnitude * gunEnd.position.magnitude));
-        gunEnd.eulerAngles = new Vector3 (gunEnd.eulerAngles.x, angle, gunEnd.eulerAngles.z);
+        
+        Vector3 direction = (mousePosition - this.transform.position).normalized;
+        this.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        gunEnd.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        
     }
 
     public float getViewDist()
