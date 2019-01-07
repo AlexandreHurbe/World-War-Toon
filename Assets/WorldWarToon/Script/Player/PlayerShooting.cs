@@ -30,6 +30,8 @@ public class PlayerShooting : MonoBehaviour {
     private bool isSprinting;
     //Whether or not player is reloading
     private bool isReloading;
+    //Whether or not player is meleeing
+    private bool isMeleeing;
     //Animation stuff you can ignore
     private float currentLayerWeight;
 
@@ -53,30 +55,45 @@ public class PlayerShooting : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //Checks if the player is currently sprinting which is determined in player movement
-        isSprinting = playerMovement.getIsSprinting();
-        isReloading = weaponBehaviour.getReloadState();
 
-        if (Input.GetKeyDown(PlayerInputCustomiser.Reload))
+        if (playerMovement.getDisableControls())
         {
-            Reload();
-        }
-
-        //Checks if the player is holding the right mouse button and they are not currently sprinting
-        if (Input.GetMouseButton(PlayerInputCustomiser.Aim) && !isSprinting)
-        {
-
-            isAiming = true;
-
+            return;
         }
         else
         {
-            isAiming = false;
-        }
+            //Checks if the player is currently sprinting which is determined in player movement
+            isSprinting = playerMovement.getIsSprinting();
+            isReloading = weaponBehaviour.getReloadState();
 
-        isAiming = true;
-        Aiming();
-        Animate();
+
+            if (Input.GetKeyDown(PlayerInputCustomiser.Melee))
+            {
+                Melee();
+            }
+
+            if (Input.GetKeyDown(PlayerInputCustomiser.Reload))
+            {
+                Reload();
+            }
+
+            //Checks if the player is holding the right mouse button and they are not currently sprinting
+            if (Input.GetMouseButton(PlayerInputCustomiser.Aim) && !isSprinting)
+            {
+
+                isAiming = true;
+
+            }
+            else
+            {
+                isAiming = false;
+            }
+
+            //isAiming = true;
+            Aiming();
+            Animate();
+        }
+        
     }
 
     private void Aiming()
@@ -132,6 +149,18 @@ public class PlayerShooting : MonoBehaviour {
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 20f);
     }
 
+    private void Melee()
+    {
+        isMeleeing = true;
+        anim.SetTrigger("isMeleeing");
+    }
+
+    private void EventFinishMelee()
+    {
+        isMeleeing = false;
+    }
+    
+
     private void Animate()
     {
         anim.SetBool("isAiming", isAiming);
@@ -142,7 +171,7 @@ public class PlayerShooting : MonoBehaviour {
     //This is all animation stuff, you can ignore it you're not directly working with it.
     private void OnAnimatorIK()
     {
-        if (!isReloading)
+        if (!isReloading && !isMeleeing)
         {
             anim.SetIKPosition(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.position);
             anim.SetIKRotation(AvatarIKGoal.LeftHand, weaponLeftHandPos.transform.rotation);
@@ -151,7 +180,7 @@ public class PlayerShooting : MonoBehaviour {
         }
 
         //Sets the upperbody mask layer value to 1 to show animation
-        if (isAiming || isReloading)
+        if (isAiming || isReloading || isMeleeing)
         {
             currentLayerWeight = 1;
             anim.SetLayerWeight(1, currentLayerWeight);

@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
     public float sprintSpeed;
     public float crouchSpeed;
     public float crouchSprintSpeed;
+    public float proneSpeed;
+    public float proneSprintSpeed;
     public float rotationSpeed = 30f;
 
     //PRIVATE COMPONENTS \\
@@ -21,11 +23,14 @@ public class PlayerMovement : MonoBehaviour {
 
     // PRIVATE VARIABLES \\
     private Vector3 currentMoveSpeed;
+    private bool disableControls;
     private bool isAiming;
     private bool isMoving;
     private bool isSprinting;
     private bool canCrouch;
     private bool isCrouching;
+    private bool canProne;
+    private bool isProning;
 
     private float h;
     private float v;
@@ -38,6 +43,7 @@ public class PlayerMovement : MonoBehaviour {
         
         isSprinting = false;
         canCrouch = true;
+        canProne = true;
     }
 
     // Use this for initialization
@@ -46,42 +52,83 @@ public class PlayerMovement : MonoBehaviour {
         camRight = playerCamera.getPlayerCamera().transform.right;
     }
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+    private void EventEnableControls()
+    {
+        Debug.Log("Controls enabled");
+        disableControls = false;
+    }
+    private void EventDisableControls()
+    {
+        Debug.Log("Controls disabled");
+        disableControls = true;
+    }
 
-        camForward = playerCamera.getPlayerCamera().transform.forward;
-        camRight = playerCamera.getPlayerCamera().transform.right;
+    public bool getDisableControls()
+    {
+        return disableControls;
+    }
 
-        isAiming = playerShooting.getIsAiming();
-
-        if (Input.GetKey(PlayerInputCustomiser.Sprint) && (h != 0 || v != 0)) {
-            isSprinting = true;
+    // Update is called once per frame
+    void FixedUpdate () {
+        if (disableControls)
+        {
+            
+            return;
         }
         else
         {
-            isSprinting = false;
-        }
+            h = Input.GetAxisRaw("Horizontal");
+            v = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(PlayerInputCustomiser.Crouch) && canCrouch)
-        {
-            //This is one because the input can be detected several times in one frame thus cancelling the crouch.
-            StartCoroutine(canCrouchRoutine());
-            
-            if (isCrouching)
+            camForward = playerCamera.getPlayerCamera().transform.forward;
+            camRight = playerCamera.getPlayerCamera().transform.right;
+
+            isAiming = playerShooting.getIsAiming();
+
+            if (Input.GetKey(PlayerInputCustomiser.Sprint) && (h != 0 || v != 0))
             {
-                isCrouching = false;
+                isSprinting = true;
             }
             else
             {
-                isCrouching = true;
+                isSprinting = false;
             }
+
+            if (Input.GetKeyDown(PlayerInputCustomiser.Crouch) && canCrouch)
+            {
+                //This is one because the input can be detected several times in one frame thus cancelling the crouch.
+                StartCoroutine(canCrouchRoutine());
+
+                if (isCrouching)
+                {
+                    isCrouching = false;
+                }
+                else
+                {
+                    isProning = false;
+                    isCrouching = true;
+                }
+            }
+
+            if (Input.GetKeyDown(PlayerInputCustomiser.Prone) && canProne)
+            {
+                Debug.Log("Prone key pressed");
+                //This is one because the input can be detected several times in one frame thus cancelling the prone.
+                StartCoroutine(canProneRoutine());
+
+                if (isProning)
+                {
+                    isProning = false;
+                }
+                else
+                {
+                    isCrouching = false;
+                    isProning = true;
+                }
+            }
+
+            Move(h, v);
         }
-
-
-        Move(h, v);
-        
     }
 
     private void LateUpdate()
@@ -92,7 +139,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Animate(float h, float v) {
 
         anim.SetBool("isCrouching", isCrouching);
-        
+        anim.SetBool("isProning", isProning);
 
         if (isAiming)
         {
@@ -106,6 +153,7 @@ public class PlayerMovement : MonoBehaviour {
         else
         {
             anim.SetFloat("movementSpeed", currentMoveSpeed.magnitude);
+            Debug.Log(currentMoveSpeed.magnitude);
         }
         
 
@@ -203,7 +251,7 @@ public class PlayerMovement : MonoBehaviour {
         camForward.y = 0;
         camRight.y = 0;
 
-        //Checks if the user is sprinting while crouched
+        //Checks if the user is crouched
         if (isCrouching)
         {
             if (isAiming)
@@ -225,6 +273,28 @@ public class PlayerMovement : MonoBehaviour {
             }
 
         }
+        //Checks if the user is proning
+        else if (isProning)
+        {
+            if (isAiming)
+            {
+                movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * (proneSpeed * 0.6f) * Time.deltaTime;
+            }
+            else
+            {
+                //if sprinting while crouched
+                if (isSprinting)
+                {
+
+                    movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * proneSprintSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    movement = ((camRight.normalized * h) + (camForward.normalized * v)).normalized * proneSpeed * Time.deltaTime;
+                }
+            }
+        }
+        //Otherwise user is standing
         else
         {
             if (isAiming)
@@ -258,8 +328,15 @@ public class PlayerMovement : MonoBehaviour {
     IEnumerator canCrouchRoutine()
     {
         canCrouch = false;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         canCrouch = true;
+    }
+
+    IEnumerator canProneRoutine()
+    {
+        canProne = false;
+        yield return new WaitForSeconds(0.3f);
+        canProne = true;
     }
 
     public bool getIsSprinting()
