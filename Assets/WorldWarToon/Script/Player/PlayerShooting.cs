@@ -6,7 +6,7 @@ public class PlayerShooting : MonoBehaviour {
 
     //THIS WILL NEED TO BE MOVED TO ANOTHER PLAYER CONFIGURATION SCRIPT EVENTUALLY
     private int primaryWeaponID = 0;
-    private int secondaryWeaponID = 1;
+    private int secondaryWeaponID = 2;
 
     //These are the weapon objects found in the hand of player
     [SerializeField]
@@ -68,6 +68,7 @@ public class PlayerShooting : MonoBehaviour {
 
         //weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
         //Debug.Log(weaponBehaviour.GetType());
+        
         ReadyWeapons();
         currentLayerWeight = 0;
         
@@ -75,11 +76,14 @@ public class PlayerShooting : MonoBehaviour {
 
     private void ReadyWeapons()
     {
+        Debug.Log(primaryWeaponID);
         weapon = weapons[primaryWeaponID];
         currentWeaponID = primaryWeaponID;
         weapon.SetActive(true);
+        Debug.Log(weapon);
         weaponBehaviour = weapon.GetComponent<WeaponBehaviour>();
         playerCamera.setViewDist(weaponBehaviour.getViewDist());
+        Debug.Log(weaponBehaviour.getViewDist());
         weaponLeftHandPos = weaponBehaviour.getLeftHandPos();
         currentWeaponIsPistol = weaponBehaviour.returnIsPistol();
 
@@ -252,7 +256,7 @@ public class PlayerShooting : MonoBehaviour {
             // Rotates player to face mouse when aiming
             RotateTowards();
 
-            if (Input.GetMouseButtonDown(PlayerInputCustomiser.Shoot))
+            if (Input.GetMouseButton(PlayerInputCustomiser.Shoot))
             {
                 //Debug.Log("Left mouse click registered");
                 weaponBehaviour.fireWeapon();

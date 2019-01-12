@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: c49199dea3f6229499f58342a1697e9c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bullet: {fileID: 4362600011160403578, guid: f2c38d250ccc1714bbaf2e730c24f288,
+      type: 3}
+  - gunMagazineEmptyAudio: {instanceID: 0}
+  - gunReloadAudio: {instanceID: 0}
+  - shellCasing: {instanceID: 0}
+  - gunSmoke: {instanceID: 0}
+  - gunEnd: {instanceID: 0}
+  - LeftHandPos: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

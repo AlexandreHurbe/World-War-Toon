@@ -168,6 +168,12 @@ public class PlayerCamera : MonoBehaviour {
             mousePosition.y += mouseY * mouseSensitivity;
         }
 
+
+        if (viewDist == 0)
+        {
+            viewDist = 5;
+        }
+
         playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset / viewDist), smoothing * Time.deltaTime);
         
 

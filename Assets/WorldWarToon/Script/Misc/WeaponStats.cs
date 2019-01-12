@@ -18,7 +18,7 @@ public class WeaponStats : MonoBehaviour {
     public static class M1GarandStats {
         public static string weaponName = "M1Garand";
         public static int weaponID = 0;
-        public static float fireRate = 0.3f;
+        public static float fireRate = 0.4f;
         public static float weaponDamage = 60;
         public static int magSize = 8;
         public static int totalAmmo = 80;
@@ -32,7 +32,7 @@ public class WeaponStats : MonoBehaviour {
     {
         public static string weaponName = "M1911";
         public static int weaponID = 1;
-        public static float fireRate = 0.15f;
+        public static float fireRate = 0.3f;
         public static float weaponDamage = 30;
         public static int magSize = 7;
         public static int totalAmmo = 80;
@@ -40,6 +40,20 @@ public class WeaponStats : MonoBehaviour {
         public static bool chamberedRound = true;
         public static float viewDist = 5f;
         public static bool isPistol = true;
+    }
+
+    public static class ThompsonSubmachineGunStats
+    {
+        public static string weaponName = "ThompsonSubmachineGun";
+        public static int weaponID = 2;
+        public static float fireRate = 0.1f;
+        public static float weaponDamage = 30;
+        public static int magSize = 30;
+        public static int totalAmmo = 120;
+        public static float reloadTime = 1.5f;
+        public static bool chamberedRound = true;
+        public static float viewDist = 6f;
+        public static bool isPistol = false;
     }
 
 

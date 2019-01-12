@@ -5,7 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour {
-                              
+    
+    public enum Hitmarker { Body, Head, Arms, Legs}
+
     public float currentHealth;                                  
     public Slider healthSlider;                                
     public Image damageImage;                                   
