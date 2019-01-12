@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour {
 
-    // PUBLIC VARIABLES \\
-    //The weapon object that can be found attached to the player
-    public GameObject weapon;
-    //The left hand position of the player on the gun
-    public Transform weaponLeftHandPos;
-    public Transform weaponRightHandPos;
-    //The spine located on the player's character
-    public Transform spine;
+    //THIS WILL NEED TO BE MOVED TO ANOTHER PLAYER CONFIGURATION SCRIPT EVENTUALLY
+    private int primaryWeaponID = 0;
+    private int secondaryWeaponID = 1;
+
+    //These are the weapon objects found in the hand of player
+    [SerializeField]
+    private GameObject[] weapons;
+    //These are the weapon objects found in the back of player
+    [SerializeField]
+    private GameObject[] backWeapons;
+    //These are the weapons found to the side of the player
+    [SerializeField]
+    private GameObject[] sideWeapons;
+    
+
 
     // PRIVATE COMPONENTS \\
     //The Animation controller
@@ -34,34 +41,169 @@ public class PlayerShooting : MonoBehaviour {
     private bool isMeleeing;
     //Animation stuff you can ignore
     private float currentLayerWeight;
+    //The weapon object that can be found attached to the player
+    private GameObject weapon;
+    //The left hand position of the player on the gun
+    private Transform weaponLeftHandPos;
+    //This is the ID of the weapon player currently has equipped weapon id can be found weapon stats script
+    private int currentWeaponID;
+    //This is the ID of the weapon the player is going to equip
+    private int nextWeaponID;
+    //Checks if the current weapon is a pistol
+    private bool currentWeaponIsPistol;
+    //Whenever weight needs to be applied to the upper layer of the animation controller 
+    private bool swappingWeapons;
+    //
+    private bool disableUpperControls; 
 
     private void Awake()
     {
+        
+        
+
         anim = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
         isSprinting = playerMovement.getIsSprinting();
         playerCamera = GetComponent<PlayerCamera>();
 
-        weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
+        //weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
         //Debug.Log(weaponBehaviour.GetType());
-
+        ReadyWeapons();
         currentLayerWeight = 0;
+        
+    }
+
+    private void ReadyWeapons()
+    {
+        weapon = weapons[primaryWeaponID];
+        currentWeaponID = primaryWeaponID;
+        weapon.SetActive(true);
+        weaponBehaviour = weapon.GetComponent<WeaponBehaviour>();
+        playerCamera.setViewDist(weaponBehaviour.getViewDist());
+        weaponLeftHandPos = weaponBehaviour.getLeftHandPos();
+        currentWeaponIsPistol = weaponBehaviour.returnIsPistol();
+
+
+        GameObject secondaryWeapon = weapons[secondaryWeaponID];
+        secondaryWeapon.SetActive(true);
+        //Handle the gun visuals so they show on the back or side of player
+        if (secondaryWeapon.GetComponent<WeaponBehaviour>().returnIsPistol())
+        {
+            sideWeapons[secondaryWeaponID].SetActive(true);
+        }
+        else
+        {
+            backWeapons[secondaryWeaponID].SetActive(true);
+        }
+        secondaryWeapon.SetActive(false);
+
+    }
+
+    private void SwapWeapon(int weaponID)
+    {
+        //play stowaway animation
+        anim.SetTrigger("PutAway");
+        nextWeaponID = weaponID;
+        swappingWeapons = true;
+        Debug.Log("Upper body animation @ SwapWeapon: " + swappingWeapons);
+    }
+
+
+    private void EventAddGunToBack()
+    {
+        weapon.SetActive(false);
+        //set current weapon active on back or side
+        if (currentWeaponIsPistol)
+        {
+            sideWeapons[currentWeaponID].SetActive(true);
+        }
+        else
+        {
+            backWeapons[currentWeaponID].SetActive(true);
+        }
+
+        //Initialises next weapon in player's hand
+        weapon = weapons[nextWeaponID];
+        weapon.SetActive(true);
+        Debug.Log(weapon);
+        currentWeaponID = nextWeaponID;
+        weaponBehaviour = weapon.GetComponent<WeaponBehaviour>();
+        currentWeaponIsPistol = weaponBehaviour.returnIsPistol();
+        Debug.Log(currentWeaponIsPistol);
+        anim.SetTrigger("Grab");
+        weapon.SetActive(false);
+        
+
+        Debug.Log("Upper body animation @ EventGunToBack: " + swappingWeapons);
+    }
+
+
+    private void EventAddGunToHand()
+    {
+        if (currentWeaponIsPistol)
+        {
+            sideWeapons[currentWeaponID].SetActive(false);
+        }
+        else
+        {
+            backWeapons[currentWeaponID].SetActive(false);
+        }
+
+
+        weapon.SetActive(true);
+        weaponBehaviour = weapon.GetComponent<WeaponBehaviour>();
+        playerCamera.setViewDist(weaponBehaviour.getViewDist());
+        currentWeaponIsPistol = weaponBehaviour.returnIsPistol();
+        weaponLeftHandPos = weaponBehaviour.getLeftHandPos();
+
+
+        Debug.Log("Upper body animation @ EventAddGunToHand: " + swappingWeapons);
+        
+    }
+
+    
+
+    private void EventDisableUpperControls()
+    {
+        disableUpperControls = true;
+        Debug.Log("disableUpperControls @ EventDisableUpperControls: " + disableUpperControls);
+    }
+ 
+    private void EventEnableUpperControls()
+    {
+        disableUpperControls = false;
+        Debug.Log("disableUpperControls @ EventEnableUpperControls: " + disableUpperControls);
+       
     }
 
     // Use this for initialization
     void Start() {
-
+        
     }
 
     // Update is called once per frame
     void Update() {
 
-        if (playerMovement.getDisableControls())
+        if (playerMovement.getDisableControls() || disableUpperControls)
         {
             return;
         }
         else
         {
+            if (Input.GetKeyDown(PlayerInputCustomiser.PrimaryWeapon) && currentWeaponID != primaryWeaponID)
+            {
+                
+                SwapWeapon(primaryWeaponID);
+                Debug.Log("Swapping to primary the current weapon ID is: " + currentWeaponID);
+                return;
+            }
+            if (Input.GetKeyDown(PlayerInputCustomiser.SecondaryWeapon) && currentWeaponID != secondaryWeaponID)
+            {
+                SwapWeapon(secondaryWeaponID);
+                Debug.Log("Swapping to secondary the current weapon ID is: " + currentWeaponID);
+                return;
+            }
+
             //Checks if the player is currently sprinting which is determined in player movement
             isSprinting = playerMovement.getIsSprinting();
             isReloading = weaponBehaviour.getReloadState();
@@ -100,6 +242,8 @@ public class PlayerShooting : MonoBehaviour {
     {
         if (isAiming)
         {
+            
+
             AlignWeapon(playerCamera.getMouseWorldPosition());
 
             //weaponBehaviour.fireWeapon();
@@ -119,6 +263,7 @@ public class PlayerShooting : MonoBehaviour {
         else
         {
             weaponBehaviour.setAimLine(false);
+            
             return;
         }
     }
@@ -166,6 +311,7 @@ public class PlayerShooting : MonoBehaviour {
         anim.SetBool("isAiming", isAiming);
         //Debug.Log(weaponBehaviour.getReloadState());
         anim.SetBool("isReloading", isReloading);
+        anim.SetBool("isPistol", currentWeaponIsPistol);
     }
 
     //This is all animation stuff, you can ignore it you're not directly working with it.
@@ -180,7 +326,7 @@ public class PlayerShooting : MonoBehaviour {
         }
 
         //Sets the upperbody mask layer value to 1 to show animation
-        if (isAiming || isReloading || isMeleeing)
+        if (isAiming || isReloading || isMeleeing || swappingWeapons || currentWeaponIsPistol)
         {
             currentLayerWeight = 1;
             anim.SetLayerWeight(1, currentLayerWeight);

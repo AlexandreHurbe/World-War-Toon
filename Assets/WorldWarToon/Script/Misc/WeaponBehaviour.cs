@@ -3,20 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponBehaviour : MonoBehaviour {
-    //THIS CLASS IS INHERITED BY ALL GUNS, THIS IS STILL A WORK IN PROGRESS
+
+
+    //COMPONENTS NEEDED FOR GUN
+
+    [SerializeField]
+    protected GameObject bullet;
+    [SerializeField]
+    protected AudioClip gunMagazineEmptyAudio;
+    [SerializeField]
+    protected AudioClip gunReloadAudio;
+    [SerializeField]
+    protected ParticleSystem shellCasing;
+    [SerializeField]
+    protected ParticleSystem gunSmoke;
+    [SerializeField]
+    protected Transform gunEnd;
+    [SerializeField]
+    protected Transform LeftHandPos;
 
 
     // PROTECTED COMPONENTS \\
     protected LineRenderer aimLine;
     protected AudioSource gunAudio;
-    protected GameObject gunEnd;
     protected Light gunLight;
-    protected GameObject bullet;
-    protected ParticleSystem shellCasing;
-    protected ParticleSystem gunSmoke;
+    
+    
 
+    
 
     // PROTECTED VARIABLES \\
+    //Weapon name
+    protected string weaponName;
     //The rate in which the gun can fire, the higher the value the slower it is;
     protected float fireRate;
     //The amount of damage the weapon does
@@ -31,6 +49,9 @@ public class WeaponBehaviour : MonoBehaviour {
     protected bool chamberedRound;
     //Guns with scopes will allow players to view further and shoot further.
     protected float viewDist;
+    //Is it a pistol
+    protected bool isPistol;
+
 
 
     // PRIVATE VARIABLES \\
@@ -71,7 +92,16 @@ public class WeaponBehaviour : MonoBehaviour {
         //Debug.Log(currentAmmoInMag);
         if (canFire && currentAmmoInMag > 0)
         {
-            shellCasing.Stop();
+            if (shellCasing)
+            {
+                shellCasing.Stop();
+                shellCasing.Play();
+            }
+            if (gunSmoke)
+            {
+                gunSmoke.Play();
+            }
+            
             StartCoroutine(fireRateCooldown());
 
             currentAmmoInMag--;
@@ -79,8 +109,6 @@ public class WeaponBehaviour : MonoBehaviour {
             //Debug.Log(currentAmmoInMag);
             gunAudio.Stop();
             gunAudio.Play();
-            shellCasing.Play();
-            gunSmoke.Play();
             StartCoroutine(weaponFlash());
             GameObject newBullet = Instantiate(bullet, gunEnd.transform.position, gunEnd.transform.rotation);
             //Debug.Log(newBullet);
@@ -88,6 +116,10 @@ public class WeaponBehaviour : MonoBehaviour {
             bulletProperties.setDmg((int)weaponDamage);
             bulletProperties.setPlayerFriendly(true);
             //bulletProperties.setSparkEffect(currentWeapon.sparkEffect);
+            if (currentAmmoInMag == 0)
+            {
+                gunAudio.PlayOneShot(gunMagazineEmptyAudio, 0.5f);
+            }
         }
         else if (currentAmmoInMag <= 0)
         {
@@ -98,7 +130,10 @@ public class WeaponBehaviour : MonoBehaviour {
 
     }
 
-
+    public bool returnIsPistol()
+    {
+        return isPistol;
+    }
 
     public void Reload()
     {
@@ -112,18 +147,18 @@ public class WeaponBehaviour : MonoBehaviour {
             {
                 if (currentTotalAmmo > 0 && !isReloading)
                 {
-                    Debug.Log("Reloading");
+                    //Debug.Log("Reloading");
                     StartCoroutine(reloadTimer());
                 }
                 else if (isReloading)
                 {
-                    Debug.Log("Currently reloading");
+                    //Debug.Log("Currently reloading");
                     
                 }
                 else
                 {
                     //Out of ammo completely should mention in UI
-                    Debug.Log("Out of ammo");
+                    //Debug.Log("Out of ammo");
                 }
 
             }
@@ -139,18 +174,18 @@ public class WeaponBehaviour : MonoBehaviour {
             {
                 if (currentTotalAmmo > 0 && !isReloading)
                 {
-                    Debug.Log("Reloading");
+                    //Debug.Log("Reloading");
                     StartCoroutine(reloadTimer());
                 }
                 else if (isReloading)
                 {
-                    Debug.Log("Currently reloading");
+                    //Debug.Log("Currently reloading");
                     
                 }
                 else
                 {
                     //Out of ammo completely should mention in UI
-                    Debug.Log("Out of ammo");
+                    //Debug.Log("Out of ammo");
                 }
 
             }
@@ -171,16 +206,23 @@ public class WeaponBehaviour : MonoBehaviour {
     //Draws a line from gun's end point to mouse cursor
     public void drawAimLine(Vector3 mousePosition)
     {
-        //setAimLine(true);
-        Debug.DrawRay(this.transform.position, gunEnd.transform.forward * 100f, Color.red);
-        aimLine.SetPosition(0, gunEnd.transform.position);
-        aimLine.SetPosition(1, gunEnd.transform.position + (gunEnd.transform.forward * 100f));
-        //aimLine.SetColors(Color.red, Color.red);
+        if (aimLine)
+        {
+            //setAimLine(true);
+            Debug.DrawRay(this.transform.position, gunEnd.transform.forward * 100f, Color.red);
+            aimLine.SetPosition(0, gunEnd.transform.position);
+            aimLine.SetPosition(1, gunEnd.transform.position + (gunEnd.transform.forward * 100f));
+            //aimLine.SetColors(Color.red, Color.red);
+        }
+
     }
 
     public void setAimLine(bool enabled)
     {
-        aimLine.enabled = enabled;
+        if (aimLine)
+        {
+            aimLine.enabled = enabled;
+        }
     }
 
     //Makes sure the next bullet can only be fired x amount of time after first one
@@ -202,6 +244,7 @@ public class WeaponBehaviour : MonoBehaviour {
     IEnumerator reloadTimer()
     {
         isReloading = true;
+        gunAudio.PlayOneShot(gunReloadAudio, 0.4f);
         yield return new WaitForSeconds(reloadTime);
         isReloading = false;
 
@@ -265,7 +308,13 @@ public class WeaponBehaviour : MonoBehaviour {
 
     public float getViewDist()
     {
+        //Debug.Log("Weapon behaviour view dist: " + this.viewDist);
         return this.viewDist;
+    }
+
+    public Transform getLeftHandPos()
+    {
+        return this.LeftHandPos;
     }
 
 }

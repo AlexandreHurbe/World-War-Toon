@@ -14,6 +14,9 @@ public class PlayerInputCustomiser : MonoBehaviour {
     public static int Aim = 1;
     public static KeyCode Reload = KeyCode.R;
     public static KeyCode Melee = KeyCode.F;
+    public static KeyCode PrimaryWeapon = KeyCode.Alpha1;
+    public static KeyCode SecondaryWeapon = KeyCode.Alpha2;
+
 
 
     //Player Camera Inputs \\

@@ -54,14 +54,15 @@ public class PlayerMovement : MonoBehaviour {
 	
     private void EventEnableControls()
     {
-        Debug.Log("Controls enabled");
+        //Debug.Log("Controls enabled");
         disableControls = false;
     }
     private void EventDisableControls()
     {
-        Debug.Log("Controls disabled");
+        //Debug.Log("Controls disabled");
         disableControls = true;
     }
+    
 
     public bool getDisableControls()
     {
@@ -153,7 +154,7 @@ public class PlayerMovement : MonoBehaviour {
         else
         {
             anim.SetFloat("movementSpeed", currentMoveSpeed.magnitude);
-            Debug.Log(currentMoveSpeed.magnitude);
+            //Debug.Log(currentMoveSpeed.magnitude);
         }
         
 

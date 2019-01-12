@@ -54,10 +54,17 @@ public class PlayerCamera : MonoBehaviour {
     private int floorMask;
     //Distance to raycast
     private float camRayLength = 100f;
+    //View distance factor given by gun
+    private float viewDist = 1;
     
 
 
     public void Awake() {
+        
+    }
+
+    private void Start() {
+
         //Disables cursor so we can use our own custom mouse
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -75,13 +82,13 @@ public class PlayerCamera : MonoBehaviour {
         //Creating player camera
         playerCamera = Instantiate(instantiateCamera, this.transform.position + offset, Quaternion.Euler(cameraRotation));
 
-        
-    }
 
-    private void Start() {
+
         //Gets the floor layer so all raycast are to this floor 
         floorMask = LayerMask.GetMask("CanRayCast");
         isRotating = false;
+
+        
         
     }
 
@@ -161,7 +168,7 @@ public class PlayerCamera : MonoBehaviour {
             mousePosition.y += mouseY * mouseSensitivity;
         }
 
-        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset / weaponBehaviour.getViewDist()), smoothing * Time.deltaTime);
+        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset / viewDist), smoothing * Time.deltaTime);
         
 
     }
@@ -189,6 +196,12 @@ public class PlayerCamera : MonoBehaviour {
         return mouseWorldPosition;
     }
 
+    public void setViewDist(float viewDistValue)
+    {
+        //Debug.Log("viewDistValue: " + viewDistValue);
+        this.viewDist = viewDistValue;
+        //Debug.Log("this.viewDist: " + this.viewDist);
+    }
 
 
     private void OnGUI() {
