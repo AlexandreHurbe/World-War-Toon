@@ -84,7 +84,7 @@ public class PlayerShooting : MonoBehaviour {
         weapon.SetActive(true);
         Debug.Log(weapon);
         weaponBehaviour = weapon.GetComponent<WeaponBehaviour>();
-        playerCamera.setViewDist(weaponBehaviour.getViewDist());
+        //playerCamera.setViewDist(weaponBehaviour.getViewDist());
         Debug.Log(weaponBehaviour.getViewDist());
         weaponLeftHandPos = weaponBehaviour.getLeftHandPos();
         currentWeaponIsPistol = weaponBehaviour.returnIsPistol();
@@ -158,7 +158,7 @@ public class PlayerShooting : MonoBehaviour {
 
         weapon.SetActive(true);
         weaponBehaviour = weapon.GetComponent<WeaponBehaviour>();
-        playerCamera.setViewDist(weaponBehaviour.getViewDist());
+        //playerCamera.setViewDist(weaponBehaviour.getViewDist());
         currentWeaponIsPistol = weaponBehaviour.returnIsPistol();
         weaponLeftHandPos = weaponBehaviour.getLeftHandPos();
 

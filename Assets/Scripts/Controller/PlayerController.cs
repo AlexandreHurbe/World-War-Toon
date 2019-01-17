@@ -30,24 +30,34 @@ public class PlayerController : MonoBehaviour
 
     void InitInGame()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        playerCamera = GetComponent<PlayerCamera>();
-        playerShooting = GetComponent<PlayerShooting>();
-
-        playerMovement.Init();
+        
+        playerCamera = GetComponentInChildren<PlayerCamera>();
         playerCamera.Init();
-        playerShooting.Init();
+
+        playerMovement = GetComponentInChildren<PlayerMovement>();
+        playerMovement.Init();
+        //playerShooting = GetComponentInChildren<PlayerShooting>();
+
+
+
+        //playerShooting.Init();
         isInit = true;
     }
 
     private void FixedUpdate()
     {
-        
+        playerMovement.FixedTick(Time.fixedDeltaTime);
     }
 
     // Update is called once per frame
     private void Update()
     {
         playerCamera.Tick(Time.deltaTime);
+        
+    }
+
+    private void LateUpdate()
+    {
+        playerMovement.LateTick();
     }
 }

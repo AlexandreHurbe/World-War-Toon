@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public CameraValues cameraValues;
+
+    private float delta;
+
     // PUBLIC VARIABLES \\
     public float speed;
     public float sprintSpeed;
@@ -38,18 +42,20 @@ public class PlayerMovement : MonoBehaviour {
     public void Init() {
         playerRigidBody = GetComponent<Rigidbody>();
         playerCamera = GetComponent<PlayerCamera>();
-        playerShooting = GetComponent<PlayerShooting>();
+        //playerShooting = GetComponent<PlayerShooting>();
         anim = GetComponent<Animator>();
         
         isSprinting = false;
+        isCrouching = false;
         canCrouch = true;
         canProne = true;
+
+        
     }
 
     // Use this for initialization
     void Start () {
-        camForward = playerCamera.getPlayerCamera().transform.forward;
-        camRight = playerCamera.getPlayerCamera().transform.right;
+        
     }
 	
     private void EventEnableControls()
@@ -70,7 +76,11 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
+    public void FixedTick (float d) {
+
+
+        delta = d;
+
         if (disableControls)
         {
             
@@ -81,10 +91,10 @@ public class PlayerMovement : MonoBehaviour {
             h = Input.GetAxisRaw("Horizontal");
             v = Input.GetAxisRaw("Vertical");
 
-            camForward = playerCamera.getPlayerCamera().transform.forward;
-            camRight = playerCamera.getPlayerCamera().transform.right;
+            camForward = cameraValues.cameraPosition.forward;
+            camRight = cameraValues.cameraPosition.right;
 
-            isAiming = playerShooting.getIsAiming();
+            //isAiming = playerShooting.getIsAiming();
 
             if (Input.GetKey(PlayerInputCustomiser.Sprint) && (h != 0 || v != 0))
             {
@@ -132,7 +142,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void LateUpdate()
+    public void LateTick()
     {
         Animate(h, v);
     }
@@ -164,7 +174,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movement = new Vector3 (0, 0, 0);
 
 
-        Transform playerCameraTransform = playerCamera.getPlayerCamera().transform;
+        Transform playerCameraTransform = cameraValues.cameraPosition;
 
         //When not aiming, player should be always facing the direction they are moving
         if (!isAiming)

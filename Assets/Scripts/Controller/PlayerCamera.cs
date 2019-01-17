@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour {
 
+
+    public CameraValues cameraValues;
+    float mouseDeltaX;
+    float mouseDeltaY;
+
+
     // PUBLIC VARIABLES \\
     //Target to follow
-    public Camera instantiateCamera;
-    //Limits the distance the player can pan away from character
-    public Vector4 panLimit;
-    //Mouse sensitivity for cursor
-    public float mouseSensitivity = 10f;
-    //How fast the camera rotates
-    public float rotationSpeed = 50f;
-    //How fast the the player can zoom in and out
-    public float scrollSpeed = 2f;
-    //Smoothing factor for camera 
-    public float smoothing = 15f;
-
+    [SerializeField]
+    private Camera instantiateCamera;
 
     private PlayerShooting playerShooting;
     private WeaponBehaviour weaponBehaviour;
@@ -25,34 +21,19 @@ public class PlayerCamera : MonoBehaviour {
     //  PRIVATE VARIABLES  \\
     //The Camera object associated with the player
     private Camera playerCamera;
-    //The initial rotation of the camera
-    private Vector3 cameraRotation = new Vector3(70, 0, 0);
-    //Initial offset of camera from player 
-    private Vector3 offset = new Vector3(0, 18, -6);
-    //Mouse position in screen space
-    private Vector3 mousePosition;
-    //Mouse position in world space
-    private Vector3 mouseWorldPosition;
     //How much the camera is offsetted from player
+    private Vector3 offset;
+    //The offset of player when mouse is not in center of screen
     private Vector3 panOffset;
-    //Distance of camera from Player
-    //private Vector3 cameraDistance;
-    //Point of rotation when player is rotating
-    private Vector3 rotationPoint;
-    //Closest distance camera can get to player
-    private float cameraDistanceMin = 6f;
-    //Furhtest distance camera can get to player
-    private float cameraDistanceMax = 18f;
-    //Which axis to rotate about
-    private Vector3 rotationMask = new Vector3(0, 1, 0);
+    //Mouse position in world
+    private Vector3 mouseWorldPosition;
+    
+    
     //Bool to check if camera is still rotating
     private bool isRotating;
     //The invisible floor in game scene used for raycasting
     private int floorMask;
-    //Distance to raycast
-    private float camRayLength = 1000f;
-    //View distance factor given by gun
-    private float viewDist = 1;
+    
     
 
 
@@ -72,13 +53,14 @@ public class PlayerCamera : MonoBehaviour {
         weaponBehaviour = GetComponentInChildren<WeaponBehaviour>();
 
         //Sets our custom mouse to middle of the screen
-        mousePosition.x = Screen.width / 2;
-        mousePosition.y = Screen.height / 2;
-        mousePosition.z = 0;
+        cameraValues.mousePosition.x = Screen.width / 2;
+        cameraValues.mousePosition.y = Screen.height / 2;
+        cameraValues.mousePosition.z = 0;
 
         //Creating player camera
-        playerCamera = Instantiate(instantiateCamera, this.transform.position + offset, Quaternion.Euler(cameraRotation));
-
+        playerCamera = Instantiate(instantiateCamera, this.transform.position + cameraValues.getDefaultCameraOffset(), Quaternion.Euler(cameraValues.getDefaultCameraRotation()));
+        offset = cameraValues.getDefaultCameraOffset();
+        cameraValues.cameraPosition = playerCamera.transform;
 
 
         //Gets the floor layer so all raycast are to this floor 
@@ -92,37 +74,57 @@ public class PlayerCamera : MonoBehaviour {
 
     public void Tick(float d) {
         
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        mouseDeltaX = Input.GetAxis("Mouse X") * cameraValues.mouseSensitivity;
+        mouseDeltaY = Input.GetAxis("Mouse Y") * cameraValues.mouseSensitivity;
 
 
 
+        HandleZoom();
+        HandleRotation();
+        HandlePan();
+
+        //If the player is not rotating the camera then we want the cursor to follow. Otherwise we want the cursor to maintain a fixed position on the screen
+        if (!isRotating) {
+            //cameraValues.mousePosition.x += mouseDeltaX * cameraValues.mouseSensitivity;
+            //cameraValues.mousePosition.y += mouseDeltaY * cameraValues.mouseSensitivity;
+            cameraValues.mousePosition.x += mouseDeltaX;
+            cameraValues.mousePosition.y += mouseDeltaY;
+        }
+
+        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset/cameraValues.panSmoothingFactor), cameraValues.transitionSmoothing * Time.deltaTime);
+        cameraValues.cameraPosition = playerCamera.transform;
+    }
+
+    private void HandleZoom()
+    {
         /* This is for user zooming in and out using scroll wheel */
         if (Input.GetAxis("Mouse ScrollWheel") != 0)
         {
             offset = playerCamera.transform.position;
-            offset.y -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+            offset.y -= Input.GetAxis("Mouse ScrollWheel") * cameraValues.scrollSpeed;
             //Clamps the distance of how close and how far the user can zoom in/out
-            offset.y = Mathf.Clamp(offset.y, cameraDistanceMin, cameraDistanceMax);
+            offset.y = Mathf.Clamp(offset.y, cameraValues.cameraDistanceMin, cameraValues.cameraDistanceMax);
             offset.x = ((offset.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad * (playerCamera.transform.eulerAngles.y))));
             offset.z = (((offset.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (playerCamera.transform.eulerAngles.y)))));
         }
 
+    }
 
-        //This allows the panning of camera but within fixed limits
-        Ray camRay = playerCamera.ScreenPointToRay(mousePosition);
+    //This allows the panning of camera but within fixed limits
+    private void HandlePan()
+    {
+        Ray camRay = playerCamera.ScreenPointToRay(cameraValues.mousePosition);
         RaycastHit rayHit;
-        if (Physics.Raycast(camRay, out rayHit, camRayLength, floorMask))
+        if (Physics.Raycast(camRay, out rayHit, cameraValues.camRayLength, floorMask))
         {
             mouseWorldPosition = rayHit.point;
-            //mouseWorldPosition.y = 1;
 
             //This needs to worked on so that players can aim at players on the ground or perhaps 
             //Debug.Log(rayHit.collider.GetComponent<MeshRenderer>().bounds.size.y);
             if (!rayHit.collider.tag.Equals("Shootable"))
             {
                 mouseWorldPosition.y = 1f;
-                
+
             }
             else
             {
@@ -131,56 +133,39 @@ public class PlayerCamera : MonoBehaviour {
 
 
             panOffset = mouseWorldPosition - this.transform.position;
-            Debug.Log(mouseWorldPosition);
-
-            panOffset.x = Mathf.Clamp(panOffset.x, panLimit.x, panLimit.z);
-            panOffset.z = Mathf.Clamp(panOffset.z, panLimit.y, panLimit.w);
-            
+            panOffset.x = Mathf.Clamp(panOffset.x, -cameraValues.panLimitHorizontal, cameraValues.panLimitHorizontal);
+            panOffset.z = Mathf.Clamp(panOffset.z, -(cameraValues.panLimitVertical + 6f), cameraValues.panLimitVertical);
 
         }
+    }
 
-        
+    private void HandleRotation()
+    {
         //This is the rotation around the player
-        if (Input.GetMouseButton(PlayerInputCustomiser.RotateCamera) && mouseX != 0)
+        if (Input.GetMouseButton(2) && mouseDeltaX != 0)
         {
             isRotating = true;
-            rotateCamera(mouseX);
+            rotateCamera(mouseDeltaX);
         }
 
         //When the player releases middle mouse click
-        if (Input.GetMouseButtonUp(PlayerInputCustomiser.RotateCamera))
+        if (Input.GetMouseButtonUp(2))
         {
             isRotating = false;
         }
-
-
-        //If the player is not rotating the camera then we want the cursor to follow. Otherwise we want the cursor to maintain a fixed position on the screen
-        if (!isRotating) {
-            mousePosition.x += mouseX * mouseSensitivity;
-            mousePosition.y += mouseY * mouseSensitivity;
-        }
-
-
-        if (viewDist == 0)
-        {
-            viewDist = 5;
-        }
-
-        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, this.transform.position + offset + (panOffset/5), smoothing * Time.deltaTime);
-        
-
     }
+
 
     //Calculates rotation values for camera rotation and calculates the offset
     private void rotateCamera(float mouseX)
     {
-        
-        playerCamera.transform.eulerAngles = new Vector3(playerCamera.transform.eulerAngles.x, playerCamera.transform.eulerAngles.y + rotationSpeed * mouseX * Time.deltaTime, playerCamera.transform.eulerAngles.z);
+
+        playerCamera.transform.eulerAngles = new Vector3(playerCamera.transform.eulerAngles.x, playerCamera.transform.eulerAngles.y + cameraValues.rotationSpeed * mouseX * Time.deltaTime, playerCamera.transform.eulerAngles.z);
         float x = ((playerCamera.transform.position.y / 3) * (-Mathf.Sin(Mathf.Deg2Rad * (playerCamera.transform.eulerAngles.y))));
         float z = (((playerCamera.transform.position.y / 3) * (-Mathf.Cos(Mathf.Deg2Rad * (playerCamera.transform.eulerAngles.y)))));
         offset = new Vector3(x, playerCamera.transform.position.y, z);
-        offset.y = Mathf.Clamp(offset.y, cameraDistanceMin, cameraDistanceMax);
-        
+        offset.y = Mathf.Clamp(offset.y, cameraValues.cameraDistanceMin, cameraValues.cameraDistanceMax);
+
     }
 
 
@@ -194,14 +179,6 @@ public class PlayerCamera : MonoBehaviour {
         return mouseWorldPosition;
     }
 
-    public void setViewDist(float viewDistValue)
-    {
-        //Debug.Log("viewDistValue: " + viewDistValue);
-        this.viewDist = viewDistValue;
-        //Debug.Log("this.viewDist: " + this.viewDist);
-    }
-
-
     private void OnGUI() {
         float height = 10f;
         float width = 2f;
@@ -213,8 +190,8 @@ public class PlayerCamera : MonoBehaviour {
 
         Vector2 mouseGUIPosition;
 
-        mouseGUIPosition.y = Mathf.Clamp(mousePosition.y, 0, Screen.height);
-        mouseGUIPosition.x = Mathf.Clamp(mousePosition.x, 0, Screen.width);
+        mouseGUIPosition.y = Mathf.Clamp(cameraValues.mousePosition.y, 0, Screen.height);
+        mouseGUIPosition.x = Mathf.Clamp(cameraValues.mousePosition.x, 0, Screen.width);
 
         if (!playerShooting.getIsAiming())
         {

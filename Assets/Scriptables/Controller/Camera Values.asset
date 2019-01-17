@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 321336e23e3ee64489402055f0d7b563, type: 3}
+  m_Name: Camera Values
+  m_EditorClassIdentifier: 
+  cameraPosition: {fileID: 0}
+  mouseSensitivity: 10
+  transitionSmoothing: 15
+  cameraDistanceMin: 6
+  cameraDistanceMax: 18
+  scrollSpeed: 10
+  camRayLength: 40
+  panLimitHorizontal: 10
+  panLimitVertical: 10
+  panSmoothingFactor: 5
+  rotationSpeed: 50
+  mouseScreenPosition: {x: 0, y: 0}
+  mousePosition: {x: 0, y: 0, z: 0}
+  defaultCameraRotation: {x: 70, y: 0, z: 0}
