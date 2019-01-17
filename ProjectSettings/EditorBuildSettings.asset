@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/WorldWarToon/Scene/MainMenu.unity
+    path: Assets/Scene/MainMenu.unity
     guid: 3b5b5c9190e707e4ca4a33c0b95e9d10
   - enabled: 1
-    path: Assets/WorldWarToon/Scene/Amiens.unity
+    path: Assets/Scene/Amiens.unity
     guid: 32826450a4140cd43a6451a029fb9335
   - enabled: 1
-    path: Assets/WorldWarToon/Scene/CustomisationScreen.unity
+    path: Assets/Scene/CustomisationScreen.unity
     guid: 4a36539b40036dc4284ee90f9ac1373b
   m_configObjects: {}
