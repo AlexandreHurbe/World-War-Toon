@@ -163,7 +163,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
-            anim.SetFloat("movementSpeed", currentMoveSpeed.magnitude);
+            anim.SetFloat("movementSpeed", currentMoveSpeed.magnitude, 0.5f, delta);
             //Debug.Log(currentMoveSpeed.magnitude);
         }
         
